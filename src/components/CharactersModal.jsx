@@ -133,13 +133,23 @@ class CharactersModal extends Component {
             <Modal.Header closeButton>
               <Title>
                 {this.state.number_of_players - this.state.characters.length <=
-                0
-                  ? "انجام شد"
-                  : ` کاراکتر را انتخاب کنید ` +
-                    `${
-                      this.state.number_of_players -
-                      this.state.characters.length
-                    }`}
+                0 ? (
+                  <Title>انجام شد</Title>
+                ) : (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-evenly",
+                    }}
+                  >
+                    <Title>کاراکتر را انتخاب کنید</Title>
+                    <Title style={{ marginLeft: "5px" }}>
+                      {this.state.number_of_players -
+                        this.state.characters.length}
+                    </Title>
+                  </div>
+                )}
               </Title>
             </Modal.Header>
             <CharactersDiv>
@@ -205,16 +215,27 @@ class CharactersModal extends Component {
         <ModalContainer show={this.state.show_2} onHide={this.handleClose2}>
           <div>
             <Modal.Header closeButton>
-              <Title>
-                {this.state.number_of_players - this.state.players.length <= 0
-                  ? "انجام شد"
-                  : `نام را وارد کنید ${
-                      this.state.number_of_players - this.state.players.length
-                    } `}
-              </Title>
+              {this.state.number_of_players - this.state.players.length <= 0 ? (
+                <Title>انجام شد</Title>
+              ) : (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-evenly",
+                  }}
+                >
+                  <Title>نام را وارد کنید</Title>
+                  <Title style={{ marginLeft: "5px" }}>
+                    {this.state.number_of_players - this.state.players.length}
+                  </Title>
+                </div>
+              )}
             </Modal.Header>
             {this.state.players.map((player, index) => (
-              <h4 key={index}>{`${player}`} <i className="fa fa-user"></i></h4>
+              <h4 key={index}>
+                {`${player}`} <i className="fa fa-user"></i>
+              </h4>
             ))}
             <FormDiv onSubmit={this.handleAdd}>
               <Input
@@ -342,7 +363,8 @@ const ModalContainer = styled(Modal)`
       color: rgb(80, 203, 147);
       margin-right: 12px;
       text-align: right;
-      font-family: 'Cairo', sans-serif;
+      font-family: "Cairo", sans-serif;
+      font-size: 25px;
     }
   }
 `;

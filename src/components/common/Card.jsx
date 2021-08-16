@@ -14,23 +14,23 @@ const Card = ({
 
   const handleChange = (e) => {
     setValue(e.target.value);
-    const text = e.target.value
+    const text = e.target.value;
     let all = JSON.parse(localStorage.getItem("s_p"));
     let current_player_status = JSON.parse(localStorage.getItem("s_p"))[p_name];
-    current_player_status = text
+    current_player_status = text;
     all[p_name] = current_player_status;
-    localStorage.setItem('s_p', JSON.stringify(all))
-    current_player_status = value
+    localStorage.setItem("s_p", JSON.stringify(all));
+    current_player_status = value;
   };
 
   const clearText = (e) => {
     let all = JSON.parse(localStorage.getItem("s_p"));
     let current_player_status = JSON.parse(localStorage.getItem("s_p"))[p_name];
-    current_player_status = ""
+    current_player_status = "";
     all[p_name] = current_player_status;
-    localStorage.setItem('s_p', JSON.stringify(all))
+    localStorage.setItem("s_p", JSON.stringify(all));
     setValue("");
-  }
+  };
   return (
     <Content
       className="grid items-center justify-center"
@@ -64,12 +64,14 @@ const Card = ({
         </CardInfo>
         {have_status ? (
           <StatContainer>
-          <PlayerStatus
-            style={{ color }}
-            onChange={handleChange}
-            value={JSON.parse(localStorage.getItem("s_p"))[p_name]}
-          />
-          <button className="btn btn-danger btn-sm" onClick={clearText}>Clear</button>
+            <PlayerStatus
+              style={{ color }}
+              onChange={handleChange}
+              value={JSON.parse(localStorage.getItem("s_p"))[p_name]}
+            />
+            <button className="btn btn-danger btn-sm" onClick={clearText}>
+              <i className="fa fa-undo fa-lg"></i>
+            </button>
           </StatContainer>
         ) : (
           <p className="w-100 text-sm">{description}</p>
@@ -107,7 +109,7 @@ const Content = styled.div`
 const StatContainer = styled.div`
   display: flex;
   flex-direction: row;
-`
+`;
 
 const Icon = styled.div`
   i {
