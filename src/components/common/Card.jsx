@@ -11,7 +11,6 @@ const Card = ({
 }) => {
   const color = type === "citizen" ? "#66DE93" : "#DA0037";
   const [value, setValue] = useState(null);
-
   const handleChange = (e) => {
     setValue(e.target.value);
     const text = e.target.value
@@ -20,6 +19,7 @@ const Card = ({
     current_player_status = text
     all[p_name] = current_player_status;
     localStorage.setItem('s_p', JSON.stringify(all))
+    current_player_status = value
   };
 
   const clearText = (e) => {
