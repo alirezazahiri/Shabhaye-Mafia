@@ -1,24 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import Home from "./components/Home";
+import NavBar from "./components/NavBar";
+import Senario from './components/Senario';
+import Game from './components/Game';
+import GameControl from './components/GameControl';
+import GodVisionSenario from './components/GodVisionSenario';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <NavBar />
+      <Switch>
+        <Route path='/senario' component={ Senario } />
+        <Route path='/god-vision' component={ GodVisionSenario } />
+        <Route path='/game-control' component={ GameControl } />
+        <Route path='/game' component={ Game } />
+        <Route path='/' component={ Home } exact />
+      </Switch>
+    </Router>
   );
 }
 
