@@ -7,6 +7,74 @@ class Game extends Component {
   state = {
     roles_in_game: JSON.parse(localStorage.getItem("characters")),
     selected: 0,
+    players: JSON.parse(localStorage.getItem("players")),
+    characters: JSON.parse(localStorage.getItem("characters")),
+    names: JSON.parse(localStorage.getItem("names")),
+    new_names: JSON.parse(localStorage.getItem("new_names")),
+    new_players: JSON.parse(localStorage.getItem("new_players")),
+    show: false,
+    index: 0,
+    n_p: {},
+    item: {},
+    chosen_player: "",
+  };
+  make_dict = (names, players) => {
+    let n_p = {};
+    for (let i in players) {
+      n_p[players[i]] = names[i];
+    }
+    return n_p;
+  };
+
+  make_status_dict = (players) => {
+    let s_p = {};
+    for (let i in players) {
+      s_p[players[i]] = "";
+    }
+    return s_p;
+  };
+
+  shuffleIndexes = (arr) => {
+    for (let i = arr.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      let temp = arr[i];
+      arr[i] = arr[j];
+      arr[j] = temp;
+    }
+    return arr;
+  };
+
+  shuffleRoles = () => {
+    let { players, characters, names } = { ...this.state };
+
+    let new_names = new Array(names.length);
+    let new_players = new Array(players.length);
+    let indexes = new Array(characters.length);
+    for (let i in characters) {
+      indexes[i] = Number(i);
+    }
+
+    indexes = this.shuffleIndexes(indexes);
+    new_names = indexes.map((index) => {
+      return names[index];
+    });
+    localStorage.setItem("new_names", JSON.stringify(new_names));
+
+    indexes = this.shuffleIndexes(indexes);
+    new_players = indexes.map((index) => {
+      return players[index];
+    });
+    localStorage.setItem("new_players", JSON.stringify(new_players));
+
+    this.setState({ new_names, new_players, ...this.state });
+    const n_p = this.make_dict(new_names, new_players);
+    localStorage.setItem("n_p", JSON.stringify(n_p));
+    const s_p = this.make_status_dict(new_players);
+    localStorage.setItem("s_p", JSON.stringify(s_p));
+    this.setState({
+      n_p,
+      ...this.state,
+    });
   };
 
   handleStartGame = () => {
@@ -17,6 +85,8 @@ class Game extends Component {
       console.log("UnExpected Error");
     } else {
       this.props.history.push("/game-control");
+      this.shuffleRoles()
+      localStorage.setItem("refreshed", JSON.stringify(false));
     }
   };
 

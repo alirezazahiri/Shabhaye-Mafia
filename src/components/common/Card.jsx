@@ -11,6 +11,7 @@ const Card = ({
 }) => {
   const color = type === "citizen" ? "#66DE93" : "#DA0037";
   const [value, setValue] = useState(null);
+
   const handleChange = (e) => {
     setValue(e.target.value);
     const text = e.target.value

@@ -21,7 +21,6 @@ class GameControl extends Component {
   };
 
   componentDidMount = () => {
-    this.shuffleRoles();
     this.setState({ n_p: JSON.parse(localStorage.getItem("n_p")) });
   };
 
@@ -101,6 +100,8 @@ class GameControl extends Component {
 
   handleRefresh = () => {
     window.location.reload();
+    this.shuffleRoles()
+    localStorage.setItem('refreshed', JSON.stringify(true))
   };
 
   render() {
@@ -145,7 +146,7 @@ class GameControl extends Component {
             );
           })}
         </PlayersContainer>
-        <RefreshButton onClick={this.handleRefresh}>بروز رسانی</RefreshButton>
+        <RefreshButton id="refresh-btn" onClick={this.handleRefresh}>بروز رسانی</RefreshButton>
       </Container>
     );
   }

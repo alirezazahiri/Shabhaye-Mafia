@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import styled from "styled-components";
 
 const NavBar = () => {
@@ -43,10 +43,15 @@ const NavContainer = styled(Nav)`
   text-align: right;
 `;
 
-const Title = styled(NavLink)`
-  background-image: -webkit-linear-gradient(#da0037, #66de93);
+const Title = styled(Link)`
+  background-image: -webkit-gradient(
+    linear,
+    40% 100%,
+    75% 50%,
+    from(#da0037),
+    to(#66de93)
+  );
   -webkit-background-clip: text;
-  background-clip: text;
   -webkit-text-fill-color: transparent;
   font-family: "Kufam", sans-serif;
   font-size: 28px;
