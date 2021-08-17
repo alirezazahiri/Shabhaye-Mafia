@@ -246,7 +246,7 @@ class CharactersModal extends Component {
                 id="name"
                 onChange={this.handleChange}
                 value={this.state.name}
-                maxLength={15}
+                maxLength={12}
               />
             </FormDiv>
             <Modal.Footer>

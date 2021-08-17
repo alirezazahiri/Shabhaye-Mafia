@@ -9,7 +9,12 @@ const Card = ({
   p_name,
   have_status = false,
 }) => {
-  const color = type === "citizen" ? "#66DE93" : "#DA0037";
+  let color;
+  if (type === "citizen") color = "#66DE93";
+  if (type === "mafia") color = "#DA0037";
+  if (type === "independent") color = "#5C527F";
+  if (type === "mid-independent") color = "#F6D167";
+
   const [value, setValue] = useState(null);
 
   const handleChange = (e) => {
@@ -74,7 +79,7 @@ const Card = ({
             </button>
           </StatContainer>
         ) : (
-          <p className="w-100 text-sm">{description}</p>
+          <p className="w-100 text-sm tracking-wide">{description}</p>
         )}
       </div>
     </Content>

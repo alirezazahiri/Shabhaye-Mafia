@@ -174,6 +174,7 @@ const RefreshButton = styled.button`
     background-color: rgba(92, 82, 127, 0.4);
   }
   margin-top: 15px;
+  margin-bottom: 15px;
 `;
 
 const TitleAlt = styled.h1`
