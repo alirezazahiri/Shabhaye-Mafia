@@ -16,6 +16,7 @@ class CharactersModal extends Component {
     players_check: JSON.parse(localStorage.getItem("players")),
     names: JSON.parse(localStorage.getItem("names")),
     name: "",
+    character_list: undefined,
   };
 
   handleClose = () => {
@@ -119,6 +120,35 @@ class CharactersModal extends Component {
     this.setState({ players: [], players_check: [] });
   };
 
+  getColor = (type) => {
+    let color;
+    if (type === "citizen") color = "#66DE93";
+    if (type === "mafia") color = "#DA0037";
+    if (type === "independent") color = "#5C527F";
+    if (type === "mid-independent") color = "#F6D167";
+    return color;
+  };
+
+  getCharactersButtonList = (type) => {
+    const character_list = characters
+      .filter((character) => {
+        const index = characters.indexOf(character);
+        const char = character[names[index]];
+        return char.type === type;
+      })
+      .map((character) => {
+        const index = characters.indexOf(character);
+        const char = character[names[index]];
+        return {char, index};
+      });
+
+    this.setState({ character_list });
+  };
+
+  handleBack = () => {
+    this.setState({ character_list: undefined });
+  };
+
   render() {
     return (
       <div>
@@ -153,23 +183,61 @@ class CharactersModal extends Component {
               </div>
             </Modal.Header>
             <CharactersDiv>
-              {characters.map((character, index) => {
-                return (
+              {this.state.character_list ? (
+                <>
+                <button onClick={this.handleBack} className="btn btn-danger"><i className="fa fa-arrow-left"></i></button>
+                  {this.state.character_list.map(({char, index}) => {
+                    const color = this.getColor(char.type)
+                    return <button
+                      id="char-btn"
+                      key={names[index]}
+                      onClick={() => this.handleSelect(index)}
+                      style={{ color }}
+                    >
+                      <i className={char.icon} />
+                      <>
+                        {char.title}
+                        {this.state.times[index] === 0
+                          ? ""
+                          : ` x${this.state.times[index]}`}
+                      </>
+                    </button>
+                  })}
+                </>
+              ) : (
+                <>
                   <button
-                    id="char-btn"
-                    key={names[index]}
-                    onClick={() => this.handleSelect(index)}
+                    onClick={() => this.getCharactersButtonList("citizen")}
+                    className="char-gp-btn"
+                    style={{ color: this.getColor("citizen") }}
                   >
-                    <i className={characters[index][names[index]].icon} />
-                    <>
-                      {characters[index][names[index]].title}
-                      {this.state.times[index] === 0
-                        ? ""
-                        : ` x${this.state.times[index]}`}
-                    </>
+                    شهروند ها
                   </button>
-                );
-              })}
+                  <button
+                    onClick={() => this.getCharactersButtonList("mafia")}
+                    className="char-gp-btn"
+                    style={{ color: this.getColor("mafia") }}
+                  >
+                    مافیا ها
+                  </button>
+                  <button
+                    onClick={() =>
+                      this.getCharactersButtonList("mid-independent")
+                    }
+                    className="char-gp-btn"
+                    style={{ color: this.getColor("mid-independent") }}
+                  >
+                    نیمه مستقل ها
+                  </button>
+                  <button
+                    onClick={() => this.getCharactersButtonList("independent")}
+                    className="char-gp-btn"
+                    style={{ color: this.getColor("independent") }}
+                  >
+                    مستقل ها
+                  </button>
+                </>
+              )}
             </CharactersDiv>
             <Modal.Footer>
               <Button
@@ -321,6 +389,16 @@ const CharactersDiv = styled(Modal.Body)`
     padding: 12px;
     margin-bottom: 3px;
   }
+
+  .char-gp-btn {
+    font-family: "Cairo", sans-serif;
+    background: rgba(62, 44, 65, 0.7);
+    transition: all 0.2s;
+    &:hover {
+        background: rgba(62, 44, 65, 0.4);
+        border-radius: 10px;
+      }
+  }
 `;
 
 const Input = styled.input`
@@ -336,12 +414,8 @@ const ModalContainer = styled(Modal)`
     background: rgba(38, 28, 44, 0.7);
     border-radius: 15px;
     border: none;
-    button {
-      color: #9e7777;
-    }
     #char-btn {
       font-family: "Cairo", sans-serif;
-      color: #9e7777;
       font-weight: 600;
       font-size: 18px;
       background: rgba(62, 44, 65, 0.7);
@@ -354,6 +428,10 @@ const ModalContainer = styled(Modal)`
         background: rgba(62, 44, 65, 0.4);
         border-radius: 10px;
       }
+    }
+
+    button {
+      color: #FDD2BF;
     }
 
     .footer-btn {

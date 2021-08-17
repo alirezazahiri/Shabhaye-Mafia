@@ -57,7 +57,7 @@ class Home extends Component {
                 name="quantity"
                 placeholder="تعداد بازیکن ها را وارد کنید"
                 id="quantity"
-                max="40"
+                max="80"
                 min="4"
                 onChange={this.handleChange}
               />

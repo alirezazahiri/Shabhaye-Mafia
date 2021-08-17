@@ -15,7 +15,7 @@ const NavBar = () => {
           <NavContainer className="me-auto">
             <NavBarItem to="/game">آماده سازی بازی</NavBarItem>
             <NavBarItem to="/game-control">بازیکن ها</NavBarItem>
-            <NavBarItem to="/god-vision">اتاق راوی</NavBarItem>
+            <NavBarItem to="/god-vision">اتاق گرداننده</NavBarItem>
             <NavBarItem to="/senario">سناریو ها</NavBarItem>
           </NavContainer>
         </Navbar.Collapse>

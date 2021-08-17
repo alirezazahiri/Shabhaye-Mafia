@@ -42,7 +42,7 @@ class Senario extends Component {
               .toLowerCase()
               .includes(this.state.fields.role.trim().toLowerCase());
           })
-          .map((character, index) => {
+          .map((character) => {
             const idx = characters.indexOf(character)
             const char = this.getCharacter(idx);
             return (
