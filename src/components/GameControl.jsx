@@ -180,7 +180,7 @@ class GameControl extends Component {
                 <h2 style={{ color: "#5C527F" }}>نیمه مستقل</h2>
                 <h2 style={{ color: "#5C527F" }}>{mid_indep}</h2>
               </div>
-              <div style={{ borderBottom: 'none' }}>
+              <div style={{ borderBottom: "none" }}>
                 <h2 style={{ color: "#F6D167" }}>مستقل</h2>
                 <h2 style={{ color: "#F6D167" }}>{indep}</h2>
               </div>
@@ -217,7 +217,7 @@ const PageHeader = styled.div`
   text-align: center;
 `;
 const RegionsNumberSection = styled.div`
-border-radius: 15px;
+  border-radius: 15px;
   font-family: "Cairo", sans-serif;
   background: rgba(0, 0, 0, 0.7);
   text-align: center;
@@ -226,6 +226,9 @@ border-radius: 15px;
   div {
     text-align: center;
     div {
+      h2 {
+        font-size: 25px;
+      }
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       padding: 0 5px;
       display: flex;
