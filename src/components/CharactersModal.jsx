@@ -131,7 +131,7 @@ class CharactersModal extends Component {
         <ModalContainer show={this.state.show} onHide={this.handleClose}>
           <div>
             <Modal.Header closeButton>
-              <Title>
+              <div>
                 {this.state.number_of_players - this.state.characters.length <=
                 0 ? (
                   <Title>انجام شد</Title>
@@ -150,7 +150,7 @@ class CharactersModal extends Component {
                     </Title>
                   </div>
                 )}
-              </Title>
+              </div>
             </Modal.Header>
             <CharactersDiv>
               {characters.map((character, index) => {
@@ -246,6 +246,7 @@ class CharactersModal extends Component {
                 id="name"
                 onChange={this.handleChange}
                 value={this.state.name}
+                maxLength={15}
               />
             </FormDiv>
             <Modal.Footer>
