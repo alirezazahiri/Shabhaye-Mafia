@@ -100,12 +100,41 @@ class GameControl extends Component {
 
   handleRefresh = () => {
     window.location.reload();
-    this.shuffleRoles()
-    localStorage.setItem('refreshed', JSON.stringify(true))
+    this.shuffleRoles();
+    localStorage.setItem("refreshed", JSON.stringify(true));
+  };
+
+  getNumberOfRegions = () => {
+    const selection_times = JSON.parse(localStorage.getItem("times"));
+
+    const citizens_section_start = 0;
+    const citizens_section_finish = 33;
+
+    const mafias_section_start = 34;
+    const mafias_section_finish = 50;
+
+    const mid_indeps_section_start = 51;
+    const mid_indeps_section_finish = 55;
+
+    const indeps_section_start = 56;
+    const indeps_section_finish = 64;
+
+    let sums = [0, 0, 0, 0];
+    for (let i = citizens_section_start; i <= citizens_section_finish; i++)
+      sums[0] += selection_times[i];
+    for (let i = mafias_section_start; i <= mafias_section_finish; i++)
+      sums[1] += selection_times[i];
+    for (let i = mid_indeps_section_start; i <= mid_indeps_section_finish; i++)
+      sums[2] += selection_times[i];
+    for (let i = indeps_section_start; i <= indeps_section_finish; i++)
+      sums[3] += selection_times[i];
+
+    return sums;
   };
 
   render() {
     const { players, item, chosen_player } = this.state;
+    const [citizen, mafia, indep, mid_indep] = this.getNumberOfRegions();
     return (
       <Container>
         <ModalContainer show={this.state.show} onHide={this.handleClose}>
@@ -135,8 +164,29 @@ class GameControl extends Component {
             </Modal.Footer>
           </div>
         </ModalContainer>
-
-        <TitleAlt>بازیکن ها</TitleAlt>
+        <PageHeader>
+          <TitleAlt>بازیکن ها</TitleAlt>
+          <RegionsNumberSection>
+            <div>
+              <div>
+                <h2 style={{ color: "#66DE93" }}>شهروند</h2>
+                <h2 style={{ color: "#66DE93" }}>{citizen}</h2>
+              </div>
+              <div>
+                <h2 style={{ color: "#DA0037" }}>مافیا</h2>
+                <h2 style={{ color: "#DA0037" }}>{mafia}</h2>
+              </div>
+              <div>
+                <h2 style={{ color: "#5C527F" }}>نیمه مستقل</h2>
+                <h2 style={{ color: "#5C527F" }}>{mid_indep}</h2>
+              </div>
+              <div style={{ borderBottom: 'none' }}>
+                <h2 style={{ color: "#F6D167" }}>مستقل</h2>
+                <h2 style={{ color: "#F6D167" }}>{indep}</h2>
+              </div>
+            </div>
+          </RegionsNumberSection>
+        </PageHeader>
         <PlayersContainer>
           {players.map((player, index) => {
             return (
@@ -146,7 +196,9 @@ class GameControl extends Component {
             );
           })}
         </PlayersContainer>
-        <RefreshButton id="refresh-btn" onClick={this.handleRefresh}>بروز رسانی</RefreshButton>
+        <RefreshButton id="refresh-btn" onClick={this.handleRefresh}>
+          بروز رسانی
+        </RefreshButton>
       </Container>
     );
   }
@@ -160,6 +212,27 @@ const Title = styled.h1`
   font-size: 25px;
   font-weight: 900;
   letter-spacing: 1px;
+`;
+const PageHeader = styled.div`
+  text-align: center;
+`;
+const RegionsNumberSection = styled.div`
+border-radius: 15px;
+  font-family: "Cairo", sans-serif;
+  background: rgba(0, 0, 0, 0.7);
+  text-align: center;
+  margin: 10px 20px;
+  padding: 10px 40px;
+  div {
+    text-align: center;
+    div {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0 5px;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row-reverse;
+    }
+  }
 `;
 
 const RefreshButton = styled.button`
@@ -200,14 +273,14 @@ const PlayersContainer = styled.div`
   align-items: center;
   #player-btn {
     margin: 5px;
-    padding: 5px;
-    width: 360px;
+    padding: 10px;
+    width: 85%;
     font-family: "Cairo", sans-serif;
     color: #9e7777;
     font-weight: 600;
     font-size: 18px;
     background: rgba(62, 44, 65, 0.7);
-    border-radius: 0;
+    border-radius: 4px;
     transition: all 0.2s;
     &:hover {
       background: rgba(62, 44, 65, 0.4);

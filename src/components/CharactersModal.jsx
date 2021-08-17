@@ -139,7 +139,7 @@ class CharactersModal extends Component {
       .map((character) => {
         const index = characters.indexOf(character);
         const char = character[names[index]];
-        return {char, index};
+        return { char, index };
       });
 
     this.setState({ character_list });
@@ -185,23 +185,27 @@ class CharactersModal extends Component {
             <CharactersDiv>
               {this.state.character_list ? (
                 <>
-                <button onClick={this.handleBack} className="btn btn-danger"><i className="fa fa-arrow-left"></i></button>
-                  {this.state.character_list.map(({char, index}) => {
-                    const color = this.getColor(char.type)
-                    return <button
-                      id="char-btn"
-                      key={names[index]}
-                      onClick={() => this.handleSelect(index)}
-                      style={{ color }}
-                    >
-                      <i className={char.icon} />
-                      <>
-                        {char.title}
-                        {this.state.times[index] === 0
-                          ? ""
-                          : ` x${this.state.times[index]}`}
-                      </>
-                    </button>
+                  <button onClick={this.handleBack} className="btn btn-danger">
+                    <i className="fa fa-arrow-left"></i>
+                  </button>
+                  {this.state.character_list.map(({ char, index }) => {
+                    const color = this.getColor(char.type);
+                    return (
+                      <button
+                        id="char-btn"
+                        key={names[index]}
+                        onClick={() => this.handleSelect(index)}
+                        style={{ color }}
+                      >
+                        <i className={char.icon} />
+                        <>
+                          {char.title}
+                          {this.state.times[index] === 0
+                            ? ""
+                            : ` x${this.state.times[index]}`}
+                        </>
+                      </button>
+                    );
                   })}
                 </>
               ) : (
@@ -301,9 +305,12 @@ class CharactersModal extends Component {
               )}
             </Modal.Header>
             {this.state.players.map((player, index) => (
-              <h4 key={index}>
-                {`${player}`} <i className="fa fa-user"></i>
-              </h4>
+              <div key={index} className="player-name">
+                <h4>{`${player}`}</h4>
+                <h4>
+                  <i className="fa fa-user"></i>
+                </h4>
+              </div>
             ))}
             <FormDiv onSubmit={this.handleAdd}>
               <Input
@@ -395,9 +402,9 @@ const CharactersDiv = styled(Modal.Body)`
     background: rgba(62, 44, 65, 0.7);
     transition: all 0.2s;
     &:hover {
-        background: rgba(62, 44, 65, 0.4);
-        border-radius: 10px;
-      }
+      background: rgba(62, 44, 65, 0.4);
+      border-radius: 10px;
+    }
   }
 `;
 
@@ -428,10 +435,28 @@ const ModalContainer = styled(Modal)`
         background: rgba(62, 44, 65, 0.4);
         border-radius: 10px;
       }
+      &:active {
+        background: rgba(62, 44, 65, 0.4);
+      }
+      &:focus {
+        background: rgba(62, 44, 65, 0.4);
+      }
+      &:after {
+        background: rgba(62, 44, 65, 0.4);
+      }
+    }
+
+    .player-name {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 0 20px;
+      background: rgb(38, 28, 44, 0.4);
+      border: 1px solid rgba(62, 44, 65, 0.4);
     }
 
     button {
-      color: #FDD2BF;
+      color: #fdd2bf;
     }
 
     .footer-btn {
@@ -440,7 +465,6 @@ const ModalContainer = styled(Modal)`
 
     h4 {
       color: rgb(80, 203, 147);
-      margin-right: 12px;
       text-align: right;
       font-family: "Cairo", sans-serif;
       font-size: 25px;
