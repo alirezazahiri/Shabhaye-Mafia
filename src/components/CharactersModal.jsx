@@ -31,7 +31,7 @@ class CharactersModal extends Component {
 
   handleDone = () => {
     this.setState({ show: false });
-    window.location.reload();
+    window.location.reload()
   };
 
   handleShow = () => {

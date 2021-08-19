@@ -21,7 +21,7 @@ class GameControl extends Component {
     citizen: 0,
     mafia: 0,
     indep: 0,
-    mid_indep: 0
+    mid_indep: 0,
   };
 
   componentDidMount = () => {
@@ -74,9 +74,10 @@ class GameControl extends Component {
     new_players = indexes.map((index) => {
       return players[index];
     });
-    localStorage.setItem("new_players", JSON.stringify(new_players));
 
+    localStorage.setItem("new_players", JSON.stringify(new_players));
     this.setState({ new_names, new_players, ...this.state });
+
     const n_p = this.make_dict(new_names, new_players);
     localStorage.setItem("n_p", JSON.stringify(n_p));
     const s_p = this.make_status_dict(new_players);
@@ -88,8 +89,9 @@ class GameControl extends Component {
   };
 
   showRole = (e) => {
-    const { n_p } = this.state;
+    const n_p = JSON.parse(localStorage.getItem('n_p'))
     const player_name = e.target.innerHTML;
+
     this.setState({
       ...this.state,
       item: characters[names.indexOf(n_p[player_name])][n_p[player_name]],
@@ -100,12 +102,6 @@ class GameControl extends Component {
 
   handleClose = () => {
     this.setState({ show: false });
-  };
-
-  handleRefresh = () => {
-    window.location.reload();
-    this.shuffleRoles();
-    localStorage.setItem("refreshed", JSON.stringify(true));
   };
 
   getNumberOfRegions = () => {
@@ -137,6 +133,10 @@ class GameControl extends Component {
   };
 
   render() {
+    if (!localStorage.getItem("number_of_players")) {
+      this.props.history.push("/");
+      return <></>;
+    }
     const { players, item, chosen_player } = this.state;
     const [citizen, mafia, indep, mid_indep] = this.getNumberOfRegions();
     return (
@@ -200,7 +200,7 @@ class GameControl extends Component {
             );
           })}
         </PlayersContainer>
-        <RefreshButton id="refresh-btn" onClick={this.handleRefresh}>
+        <RefreshButton id="refresh-btn" onClick={this.shuffleRoles}>
           بروز رسانی
         </RefreshButton>
       </Container>

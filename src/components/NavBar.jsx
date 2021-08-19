@@ -4,6 +4,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import { NavLink, Link } from "react-router-dom";
 import styled from "styled-components";
+import { useLocation } from "react-router-dom";
 
 const NavBar = () => {
   return (
@@ -15,7 +16,7 @@ const NavBar = () => {
           <NavContainer className="me-auto">
             <NavBarItem to="/game">آماده سازی بازی</NavBarItem>
             <NavBarItem to="/game-control">بازیکن ها</NavBarItem>
-            <NavBarItem to="/god-vision">اتاق گرداننده</NavBarItem>
+            {useLocation().pathname === "/" ? "" : <NavBarItem to="/god-vision">اتاق گرداننده</NavBarItem>}
             <NavBarItem to="/senario">سناریو ها</NavBarItem>
           </NavContainer>
         </Navbar.Collapse>

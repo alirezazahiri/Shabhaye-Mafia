@@ -18,6 +18,7 @@ class Game extends Component {
     item: {},
     chosen_player: "",
   };
+
   make_dict = (names, players) => {
     let n_p = {};
     for (let i in players) {
@@ -45,6 +46,13 @@ class Game extends Component {
   };
 
   shuffleRoles = () => {
+    if (
+      this.state.roles_in_game.length !==
+      Number(localStorage.getItem("number_of_players"))
+    )
+      return;
+
+    this.props.history.push("/game-control");
     let { players, characters, names } = { ...this.state };
 
     let new_names = new Array(names.length);
@@ -77,20 +85,12 @@ class Game extends Component {
     });
   };
 
-  handleStartGame = () => {
-    if (
-      this.state.roles_in_game.length !==
-      Number(localStorage.getItem("number_of_players"))
-    ) {
-      console.log("UnExpected Error");
-    } else {
-      this.props.history.push("/game-control");
-      this.shuffleRoles()
-      localStorage.setItem("refreshed", JSON.stringify(false));
-    }
-  };
-
   render() {
+    if (!localStorage.getItem("number_of_players")) {
+      this.props.history.push("/");
+      return <></>;
+    }
+
     return (
       <Container>
         <Content>
@@ -101,11 +101,11 @@ class Game extends Component {
           </Description>
         </Content>
         <CharactersModal />
-        {Number(localStorage.getItem("number_of_players")) ===
-          this.state.roles_in_game.length &&
-        JSON.parse(localStorage.getItem("players")).length ===
-          this.state.roles_in_game.length ? (
-          <Button onClick={this.handleStartGame}>شروع بازی</Button>
+        {JSON.parse(localStorage.getItem("players")).length ===
+          Number(localStorage.getItem("number_of_players")) &&
+        JSON.parse(localStorage.getItem("characters")).length ===
+          Number(localStorage.getItem("number_of_players")) ? (
+          <Button onClick={this.shuffleRoles}>شروع بازی</Button>
         ) : (
           <p></p>
         )}

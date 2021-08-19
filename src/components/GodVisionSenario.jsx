@@ -41,8 +41,7 @@ class GodVisionSenario extends Component {
                 .trim()
                 .toLowerCase()
                 .includes(this.state.fields.player.trim().toLowerCase()) ||
-              char
-                .title
+              char.title
                 .trim()
                 .toLowerCase()
                 .includes(this.state.fields.player.trim().toLowerCase())

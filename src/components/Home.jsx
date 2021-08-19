@@ -18,9 +18,9 @@ class Home extends Component {
 
   handleStart = (e) => {
     e.preventDefault();
-    localStorage.clear();
-    if (this.state.fields.quantity >= 4 && this.state.fields.quantity <= 40) {
-      document.getElementById('quantity').style = 'border: 1px solid green;'
+    if (this.state.fields.quantity >= 4 && this.state.fields.quantity <= 80) {
+      localStorage.clear();
+      document.getElementById("quantity").style = "border: 1px solid green;";
       this.props.history.push("/game");
       localStorage.setItem("number_of_players", this.state.fields.quantity);
       localStorage.setItem("players", JSON.stringify([]));
@@ -31,8 +31,8 @@ class Home extends Component {
       }
       localStorage.setItem("times", JSON.stringify(times));
       localStorage.setItem("names", JSON.stringify([]));
-    }else {
-      document.getElementById('quantity').style = 'border: 1px solid red;'
+    } else {
+      document.getElementById("quantity").style = "border: 1px solid red;";
     }
   };
 
@@ -73,6 +73,15 @@ class Home extends Component {
             </MainMenu>
           </StartGame>
         </div>
+        <p
+          style={{
+            color: "rgba(255, 255, 255, 0.5)",
+            marginBottom: "0",
+            fontFamily: "Lato, sans-serif",
+          }}
+        >
+          All rights reserved by Alireza Zahiri&trade;
+        </p>
       </Container>
     );
   }
@@ -106,7 +115,7 @@ const MainMenu = styled.form`
 const Input = styled.input`
   border: none;
   background: rgba(0, 0, 0, 0.5);
-  font-family: 'Cairo', sans-serif;
+  font-family: "Cairo", sans-serif;
   text-align: center;
 `;
 
@@ -115,7 +124,7 @@ const Button = styled.button`
   background: rgba(92, 82, 127, 0.9);
   color: rgb(80, 203, 147);
   transition: all 0.2s;
-  font-family: 'Cairo', sans-serif;
+  font-family: "Cairo", sans-serif;
   &:hover {
     background: rgba(80, 203, 147, 0.9);
     color: rgba(92, 82, 127, 2);
