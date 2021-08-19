@@ -18,6 +18,10 @@ class GameControl extends Component {
     n_p: {},
     item: {},
     chosen_player: "",
+    citizen: 0,
+    mafia: 0,
+    indep: 0,
+    mid_indep: 0
   };
 
   componentDidMount = () => {

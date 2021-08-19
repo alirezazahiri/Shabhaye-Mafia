@@ -8,6 +8,7 @@ class CharactersModal extends Component {
   state = {
     show: false,
     show_2: false,
+    show_3: false,
     number_of_players: localStorage.getItem("number_of_players"),
     selected: 0,
     times: JSON.parse(localStorage.getItem("times")),
@@ -17,6 +18,11 @@ class CharactersModal extends Component {
     names: JSON.parse(localStorage.getItem("names")),
     name: "",
     character_list: undefined,
+
+    edit_field: {
+      name: "",
+      idx: undefined,
+    },
   };
 
   handleClose = () => {
@@ -51,6 +57,30 @@ class CharactersModal extends Component {
       times[idx]++;
       const characters_alt = [...this.state.characters, characters[idx]];
       names_alt.push(names[idx]);
+      this.setState({
+        characters: characters_alt,
+        times,
+        names: names_alt,
+      });
+
+      localStorage.setItem("characters", JSON.stringify(characters_alt));
+      localStorage.setItem("times", JSON.stringify(times));
+      localStorage.setItem("names", JSON.stringify(names_alt));
+    }
+  };
+
+  handleDeSelect = (idx) => {
+    let times = [...this.state.times];
+    let characters_alt = [...this.state.characters];
+    let names_alt = [...this.state.names];
+    
+    const l_char_idx = this.state.characters.lastIndexOf(characters[idx])
+    const l_name_idx = this.state.names.lastIndexOf(names[idx])
+    
+    if (times[idx] > 0) {
+      times[idx]--;
+      characters_alt.splice(l_char_idx, 1)
+      names_alt.splice(l_name_idx, 1)
       this.setState({
         characters: characters_alt,
         times,
@@ -149,6 +179,48 @@ class CharactersModal extends Component {
     this.setState({ character_list: undefined });
   };
 
+  // EDIT SECTION
+  handleEdit = (idx) => {
+    this.setState({ show_3: true, show_2: false, edit_field: { name: "", idx } });
+    localStorage.setItem("edit_idx", idx);
+  };
+
+  handleEditClose = () => {
+    this.setState({ show_3: false, show_2: true });
+  };
+
+  handleEditDone = () => {
+    this.setState({ show_3: false });
+    const { name } = { ...this.state.edit_field };
+    const idx = localStorage.getItem("edit_idx");
+    if (
+      idx !== "undefined" &&
+      name !== "" &&
+      !this.state.players_check.includes(
+        this.state.edit_field.name.trim().toLowerCase()
+      )
+    ) {
+      let players = [...this.state.players];
+      let players_check = [...this.state.players_check];
+      players[idx] = name;
+      players_check[idx] = name;
+      console.log(players);
+      localStorage.setItem("players", JSON.stringify(players));
+      this.setState({
+        edit_field: { name: "", idx: undefined },
+        players,
+        players_check,
+      });
+    }
+    this.setState({ show_2: true })
+  };
+
+  handleEditChange = (e) => {
+    const name = e.target.value;
+    this.setState({ edit_field: { name } });
+    console.log(this.state.edit_field);
+  };
+
   render() {
     return (
       <div>
@@ -158,6 +230,7 @@ class CharactersModal extends Component {
           </SelectCharacters>
         </ButtonContainer>
 
+        {/* Character Select Modal*/}
         <ModalContainer show={this.state.show} onHide={this.handleClose}>
           <div>
             <Modal.Header closeButton>
@@ -191,22 +264,33 @@ class CharactersModal extends Component {
                   {this.state.character_list.map(({ char, index }) => {
                     const color = this.getColor(char.type);
                     return (
-                      <button
-                        id="char-btn"
-                        key={names[index]}
-                        onClick={() => this.handleSelect(index)}
-                        style={{ color }}
-                      >
-                        <i className={char.icon} />
-                        <>
-                          {char.title}
-                          {this.state.times[index] === 0
-                            ? ""
-                            : ` x${this.state.times[index]}`}
-                        </>
-                      </button>
+                      <CharacterButtonContainer>
+                        <button
+                          id="char-btn"
+                          key={names[index]}
+                          onClick={() => this.handleSelect(index)}
+                          style={{ color, width: "100%" }}
+                        >
+                          <i className={char.icon} />
+                          <>
+                            {char.title}
+                            {this.state.times[index] === 0
+                              ? ""
+                              : ` x${this.state.times[index]}`}
+                          </>
+                        </button>
+                        <button
+                          className="bg-purple-800 hover:bg-purple-900 bg-blend-darken transition duration-300"
+                          onClick={() => this.handleDeSelect(index)}
+                        >
+                          <i className="fa fa-minus"></i>
+                        </button>
+                      </CharacterButtonContainer>
                     );
                   })}
+                  <button onClick={this.handleBack} className="btn btn-danger">
+                    <i className="fa fa-arrow-left"></i>
+                  </button>
                 </>
               ) : (
                 <>
@@ -283,7 +367,7 @@ class CharactersModal extends Component {
             </Modal.Footer>
           </div>
         </ModalContainer>
-
+        {/* Players Modal */}
         <ModalContainer show={this.state.show_2} onHide={this.handleClose2}>
           <div>
             <Modal.Header closeButton>
@@ -308,7 +392,9 @@ class CharactersModal extends Component {
               <div key={index} className="player-name">
                 <h4>{`${player}`}</h4>
                 <h4>
-                  <i className="fa fa-user"></i>
+                  <button onClick={() => this.handleEdit(index)}>
+                    <i className="fa fa-edit text-purple-600"></i>
+                  </button>
                 </h4>
               </div>
             ))}
@@ -374,6 +460,47 @@ class CharactersModal extends Component {
             </Modal.Footer>
           </div>
         </ModalContainer>
+        {/* Edit Player Modal */}
+        <ModalContainer show={this.state.show_3} onHide={this.handleEditClose}>
+          <div>
+            <Modal.Header closeButton>
+              <div>
+                <Title>نام جدید را وارد کنید</Title>
+              </div>
+            </Modal.Header>
+            <Input
+              type="text"
+              className="block w-full text-white p-3 rounded mb-4"
+              name="name"
+              placeholder="نام را وارد کنید"
+              id="new_name"
+              onChange={this.handleEditChange}
+              maxLength={12}
+            />
+            <Modal.Footer>
+              <Button
+                style={{
+                  fontFamily: `Cairo, sans-serif`,
+                }}
+                className="footer-btn"
+                variant="danger"
+                onClick={this.handleEditClose}
+              >
+                بستن
+              </Button>
+              <Button
+                className="footer-btn"
+                variant="success"
+                style={{
+                  fontFamily: `Cairo, sans-serif`,
+                }}
+                onClick={this.handleEditDone}
+              >
+                انجام شد
+              </Button>
+            </Modal.Footer>
+          </div>
+        </ModalContainer>
       </div>
     );
   }
@@ -387,6 +514,12 @@ const Title = styled.h1`
   font-weight: 900;
   letter-spacing: 1px;
   text-align: right;
+`;
+
+const CharacterButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
 `;
 
 const CharactersDiv = styled(Modal.Body)`
