@@ -4,6 +4,35 @@ import React, { Component } from "react";
 import characters, { names } from "../utils/characters";
 import styled from "styled-components";
 
+const getNumberOfRegions = () => {
+  const selection_times = JSON.parse(localStorage.getItem("times"));
+
+  const citizens_section_start = 0;
+  const citizens_section_finish = 33;
+
+  const mafias_section_start = 34;
+  const mafias_section_finish = 50;
+
+  const mid_indeps_section_start = 51;
+  const mid_indeps_section_finish = 55;
+
+  const indeps_section_start = 56;
+  const indeps_section_finish = 64;
+
+  let sums = [0, 0, 0, 0];
+  for (let i = citizens_section_start; i <= citizens_section_finish; i++)
+    sums[0] += selection_times[i];
+  for (let i = mafias_section_start; i <= mafias_section_finish; i++)
+    sums[1] += selection_times[i];
+  for (let i = mid_indeps_section_start; i <= mid_indeps_section_finish; i++)
+    sums[2] += selection_times[i];
+  for (let i = indeps_section_start; i <= indeps_section_finish; i++)
+    sums[3] += selection_times[i];
+
+  return sums;
+};
+const sums = getNumberOfRegions();
+
 class CharactersModal extends Component {
   state = {
     show: false,
@@ -23,6 +52,13 @@ class CharactersModal extends Component {
       name: "",
       idx: undefined,
     },
+
+    type_counts: {
+      citizen: sums[0],
+      mafia: sums[1],
+      "mid-independent": sums[2],
+      independent: sums[3],
+    },
   };
 
   handleClose = () => {
@@ -31,7 +67,7 @@ class CharactersModal extends Component {
 
   handleDone = () => {
     this.setState({ show: false });
-    window.location.reload()
+    window.location.reload();
   };
 
   handleShow = () => {
@@ -50,6 +86,7 @@ class CharactersModal extends Component {
   handleSelect = (idx) => {
     let times = [...this.state.times];
     let names_alt = [...this.state.names];
+    let { type_counts } = { ...this.state };
     if (
       times[idx] < characters[idx][names[idx]].max &&
       this.sum(times) < this.state.number_of_players
@@ -57,15 +94,20 @@ class CharactersModal extends Component {
       times[idx]++;
       const characters_alt = [...this.state.characters, characters[idx]];
       names_alt.push(names[idx]);
+      const type = characters[idx][names[idx]].type;
+      type_counts[type]++;
       this.setState({
         characters: characters_alt,
         times,
         names: names_alt,
+        type_counts,
       });
 
       localStorage.setItem("characters", JSON.stringify(characters_alt));
       localStorage.setItem("times", JSON.stringify(times));
       localStorage.setItem("names", JSON.stringify(names_alt));
+
+      localStorage.setItem("type_counts", JSON.stringify(type_counts));
     }
   };
 
@@ -73,14 +115,17 @@ class CharactersModal extends Component {
     let times = [...this.state.times];
     let characters_alt = [...this.state.characters];
     let names_alt = [...this.state.names];
-    
-    const l_char_idx = this.state.characters.lastIndexOf(characters[idx])
-    const l_name_idx = this.state.names.lastIndexOf(names[idx])
-    
+    let { type_counts } = { ...this.state };
+
+    const l_char_idx = this.state.characters.lastIndexOf(characters[idx]);
+    const l_name_idx = this.state.names.lastIndexOf(names[idx]);
+
     if (times[idx] > 0) {
       times[idx]--;
-      characters_alt.splice(l_char_idx, 1)
-      names_alt.splice(l_name_idx, 1)
+      const type = characters[idx][names[idx]].type;
+      type_counts[type]--;
+      characters_alt.splice(l_char_idx, 1);
+      names_alt.splice(l_name_idx, 1);
       this.setState({
         characters: characters_alt,
         times,
@@ -99,7 +144,17 @@ class CharactersModal extends Component {
     for (let i in characters) {
       times[i] = 0;
     }
-    this.setState({ characters: [], times, names: [] });
+    this.setState({
+      characters: [],
+      times,
+      names: [],
+      type_counts: {
+        citizen: 0,
+        mafia: 0,
+        independent: 0,
+        "mid-independent": 0,
+      },
+    });
     localStorage.setItem("characters", JSON.stringify([]));
     localStorage.setItem("names", JSON.stringify([]));
     localStorage.setItem("times", JSON.stringify(times));
@@ -181,7 +236,11 @@ class CharactersModal extends Component {
 
   // EDIT SECTION
   handleEdit = (idx) => {
-    this.setState({ show_3: true, show_2: false, edit_field: { name: "", idx } });
+    this.setState({
+      show_3: true,
+      show_2: false,
+      edit_field: { name: "", idx },
+    });
     localStorage.setItem("edit_idx", idx);
   };
 
@@ -212,7 +271,7 @@ class CharactersModal extends Component {
         players_check,
       });
     }
-    this.setState({ show_2: true })
+    this.setState({ show_2: true });
   };
 
   handleEditChange = (e) => {
@@ -222,6 +281,7 @@ class CharactersModal extends Component {
   };
 
   render() {
+    const { type_counts } = { ...this.state };
     return (
       <div>
         <ButtonContainer>
@@ -300,6 +360,11 @@ class CharactersModal extends Component {
                     style={{ color: this.getColor("citizen") }}
                   >
                     شهروند ها
+                    {type_counts["citizen"] && type_counts["citizen"] !== 0 ? (
+                      <span>{type_counts["citizen"]}</span>
+                    ) : (
+                      ""
+                    )}
                   </button>
                   <button
                     onClick={() => this.getCharactersButtonList("mafia")}
@@ -307,6 +372,11 @@ class CharactersModal extends Component {
                     style={{ color: this.getColor("mafia") }}
                   >
                     مافیا ها
+                    {type_counts["mafia"] && type_counts["mafia"] !== 0 ? (
+                      <span>{type_counts["mafia"]}</span>
+                    ) : (
+                      ""
+                    )}
                   </button>
                   <button
                     onClick={() =>
@@ -316,6 +386,12 @@ class CharactersModal extends Component {
                     style={{ color: this.getColor("mid-independent") }}
                   >
                     نیمه مستقل ها
+                    {type_counts["mid-independent"] &&
+                    type_counts["mid-independent"] !== 0 ? (
+                      <span>{type_counts["mid-independent"]}</span>
+                    ) : (
+                      ""
+                    )}
                   </button>
                   <button
                     onClick={() => this.getCharactersButtonList("independent")}
@@ -323,6 +399,12 @@ class CharactersModal extends Component {
                     style={{ color: this.getColor("independent") }}
                   >
                     مستقل ها
+                    {type_counts["independent"] &&
+                    type_counts["independent"] !== 0 ? (
+                      <span>{type_counts["independent"]}</span>
+                    ) : (
+                      ""
+                    )}
                   </button>
                 </>
               )}
@@ -534,6 +616,9 @@ const CharactersDiv = styled(Modal.Body)`
     font-family: "Cairo", sans-serif;
     background: rgba(62, 44, 65, 0.7);
     transition: all 0.2s;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
     &:hover {
       background: rgba(62, 44, 65, 0.4);
       border-radius: 10px;
