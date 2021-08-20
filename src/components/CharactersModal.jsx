@@ -5,7 +5,9 @@ import characters, { names } from "../utils/characters";
 import styled from "styled-components";
 
 const getNumberOfRegions = () => {
-  const selection_times = JSON.parse(localStorage.getItem("times"));
+  const selection_times = JSON.parse(localStorage.getItem("times")) ? JSON.parse(localStorage.getItem("times")) : undefined;
+
+  if (!selection_times) return [0, 0, 0, 0]
 
   const citizens_section_start = 0;
   const citizens_section_finish = 33;
