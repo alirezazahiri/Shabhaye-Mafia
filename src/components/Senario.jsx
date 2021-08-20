@@ -9,6 +9,7 @@ class Senario extends Component {
     fields: {
       role: "",
     },
+    type: "all",
   };
 
   getCharacter = (idx) => {
@@ -20,6 +21,11 @@ class Senario extends Component {
     const changeFields = this.state.fields;
     changeFields[name] = e.target.value;
     this.setState({ fields: changeFields });
+  };
+
+  handleChangeType = (e) => {
+    const type = e.target.name;
+    this.setState({ type });
   };
 
   render() {
@@ -34,16 +40,46 @@ class Senario extends Component {
           onChange={this.handleChange}
         />
         <Title>سناریو ها</Title>
+        <FilterContainer>
+          <button id="mafia" onClick={this.handleChangeType} name="mafia">
+            گروه مافیا
+          </button>
+          <button id="citizen" onClick={this.handleChangeType} name="citizen">
+            گروه شهروند
+          </button>
+          <button id="all" onClick={this.handleChangeType} name="all">
+            همه نقش ها
+          </button>
+          <button
+            id="mid-independent"
+            onClick={this.handleChangeType}
+            name="mid-independent"
+          >
+            گروه نیمه مستقل
+          </button>
+          <button
+            id="independent"
+            onClick={this.handleChangeType}
+            name="independent"
+          >
+            گروه مستقل
+          </button>
+        </FilterContainer>
         {characters
           .filter((character) => {
-            const idx = characters.indexOf(character)
+            const idx = characters.indexOf(character);
             return character[names[idx]].title
               .trim()
               .toLowerCase()
               .includes(this.state.fields.role.trim().toLowerCase());
           })
+          .filter((character) => {
+            const idx = characters.indexOf(character);
+            const { type } = { ...this.state };
+            return type === "all" ? true : character[names[idx]].type === type;
+          })
           .map((character) => {
-            const idx = characters.indexOf(character)
+            const idx = characters.indexOf(character);
             const char = this.getCharacter(idx);
             return (
               <Card
@@ -77,6 +113,59 @@ const Input = styled.input`
   background: rgba(0, 0, 0, 0.5);
   font-family: "Cairo", sans-serif;
   text-align: center;
+`;
+
+const FilterContainer = styled.div`
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+  button {
+    border-radius: 5px;
+    font-family: "Cairo", sans-serif;
+    transition: all 0.3s;
+    padding: 4px;
+    font-size: 18px;
+    &:hover {
+      background: rgba(62, 44, 65, 0.4);
+      border-radius: 10px;
+    }
+    &:active {
+      background: rgba(62, 44, 65, 0.4);
+    }
+    &:focus {
+      background: rgba(62, 44, 65, 0.4);
+    }
+    &:after {
+      background: rgba(62, 44, 65, 0.4);
+    }
+    @media only screen and (max-width: 600px) {
+      font-size: 10px;
+    }
+  }
+  #mafia {
+    color: #da0037;
+  }
+
+  #citizen {
+    color: #66de93;
+  }
+
+  #mid-independent {
+    color: #f6d167;
+  }
+
+  #independent {
+    color: #5c527f;
+  }
+
+  #all {
+    color: white;
+  }
 `;
 
 export default Senario;
