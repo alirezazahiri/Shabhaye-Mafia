@@ -31,6 +31,7 @@ class Home extends Component {
       }
       localStorage.setItem("times", JSON.stringify(times));
       localStorage.setItem("names", JSON.stringify([]));
+      localStorage.setItem("checked", JSON.stringify(true));
     } else {
       document.getElementById("quantity").style = "border: 1px solid red;";
     }

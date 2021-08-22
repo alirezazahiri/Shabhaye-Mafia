@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Container from "./common/Container";
 import Card from "./common/Card";
 import styled from "styled-components";
+import DayNightRadio from "./common/DayNightRadio";
 
 class GodVisionSenario extends Component {
   state = {
@@ -12,6 +13,7 @@ class GodVisionSenario extends Component {
     fields: {
       player: "",
     },
+    cheked: JSON.parse(localStorage.getItem('checked')),
   };
 
   handleChange = (e) => {
@@ -20,6 +22,9 @@ class GodVisionSenario extends Component {
     changeFields[name] = e.target.value;
     this.setState({ fields: changeFields });
   };
+
+  
+
   render() {
     const { characters, players, names, n_p } = { ...this.state };
     return (
@@ -32,7 +37,8 @@ class GodVisionSenario extends Component {
           id="player"
           onChange={this.handleChange}
         />
-        <Title>اتاق راوی</Title>
+        <Title>اتاق گرداننده</Title>
+        <DayNightRadio />
         {players
           .filter((player) => {
             const char = characters[names.indexOf(n_p[player])][n_p[player]];
