@@ -5,19 +5,23 @@ import styled from "styled-components";
 class DayNightRadio extends Component {
   state = {
     checked: JSON.parse(localStorage.getItem("checked")),
-    audio: new Audio("./thumbnails/night.mp3"),
+    audio: new Audio('./thumbnails/night.mp3'),
   };
+
+  constructor(props) {
+    super(props)
+    this.state.audio.load()
+  }
 
   handleChange = (checked) => {
     const { audio } = { ...this.state };
-    audio.load();
     if (!checked) {
       audio.play();
       audio.loop = true
     }
     if (checked) {
       audio.pause();
-      this.setState({ audio: audio })
+      this.setState({ audio: new Audio('./thumbnails/night.mp3') })
     }
     this.setState({ checked });
     localStorage.setItem("checked", JSON.stringify(checked));
