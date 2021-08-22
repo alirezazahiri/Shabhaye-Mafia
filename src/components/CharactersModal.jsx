@@ -33,7 +33,6 @@ const getNumberOfRegions = () => {
 
   return sums;
 };
-const sums = getNumberOfRegions();
 
 class CharactersModal extends Component {
   state = {
@@ -56,10 +55,10 @@ class CharactersModal extends Component {
     },
 
     type_counts: {
-      citizen: sums[0],
-      mafia: sums[1],
-      "mid-independent": sums[2],
-      independent: sums[3],
+      citizen: getNumberOfRegions()[0],
+      mafia: getNumberOfRegions()[1],
+      "mid-independent": getNumberOfRegions()[2],
+      independent: getNumberOfRegions()[3],
     },
   };
 
