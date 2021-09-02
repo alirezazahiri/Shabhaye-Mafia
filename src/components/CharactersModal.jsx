@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 import React, { Component } from "react";
 import characters, { names } from "../utils/characters";
 import styled from "styled-components";
+import { withRouter } from 'react-router-dom'
 
 const getNumberOfRegions = () => {
   const selection_times = JSON.parse(localStorage.getItem("times"))
@@ -38,6 +39,12 @@ const getNumberOfRegions = () => {
 
 class CharactersModal extends Component {
   state = {
+    new_names: JSON.parse(localStorage.getItem("new_names")),
+    new_players: JSON.parse(localStorage.getItem("new_players")),
+    index: 0,
+    n_p: {},
+    item: {},
+    chosen_player: "",
     show: false,
     show_2: false,
     show_3: false,
@@ -70,7 +77,6 @@ class CharactersModal extends Component {
 
   handleDone = () => {
     this.setState({ show: false });
-    window.location.reload();
   };
 
   handleShow = () => {
@@ -267,7 +273,6 @@ class CharactersModal extends Component {
       let players_check = [...this.state.players_check];
       players[idx] = name;
       players_check[idx] = name;
-      console.log(players);
       localStorage.setItem("players", JSON.stringify(players));
       this.setState({
         edit_field: { name: "", idx: undefined },
@@ -281,7 +286,73 @@ class CharactersModal extends Component {
   handleEditChange = (e) => {
     const name = e.target.value;
     this.setState({ edit_field: { name } });
-    console.log(this.state.edit_field);
+  };
+
+  // Role Management
+  make_dict = (names, players) => {
+    let n_p = {};
+    for (let i in players) {
+      n_p[players[i]] = names[i];
+    }
+    return n_p;
+  };
+
+  make_status_dict = (players) => {
+    let s_p = {};
+    for (let i in players) {
+      s_p[players[i]] = "";
+    }
+    return s_p;
+  };
+
+  shuffleIndexes = (arr) => {
+    for (let i = arr.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      let temp = arr[i];
+      arr[i] = arr[j];
+      arr[j] = temp;
+    }
+    return arr;
+  };
+
+  shuffleRoles = () => {
+    if (
+      this.state.characters.length !==
+      Number(localStorage.getItem("number_of_players"))
+    )
+      return;
+
+    this.props.history.push("/game-control");
+    let { players, characters, names } = { ...this.state };
+
+    let new_names = new Array(names.length);
+    let new_players = new Array(players.length);
+    let indexes = new Array(characters.length);
+    for (let i in characters) {
+      indexes[i] = Number(i);
+    }
+
+    indexes = this.shuffleIndexes(indexes);
+    new_names = indexes.map((index) => {
+      return names[index];
+    });
+    localStorage.setItem("new_names", JSON.stringify(new_names));
+
+    indexes = this.shuffleIndexes(indexes);
+    new_players = indexes.map((index) => {
+      return players[index];
+    });
+    localStorage.setItem("new_players", JSON.stringify(new_players));
+
+    this.setState({ new_names, new_players, ...this.state });
+    const n_p = this.make_dict(new_names, new_players);
+    localStorage.setItem("n_p", JSON.stringify(n_p));
+    const s_p = this.make_status_dict(new_players);
+    localStorage.setItem("s_p", JSON.stringify(s_p));
+    this.setState({
+      n_p,
+      ...this.state,
+    });
   };
 
   render() {
@@ -328,14 +399,14 @@ class CharactersModal extends Component {
                   {this.state.character_list.map(({ char, index }) => {
                     const color = this.getColor(char.type);
                     return (
-                      <CharacterButtonContainer>
+                      <CharacterButtonContainer key={`${char.type}-${index}`}>
                         <button
                           id="char-btn"
-                          key={names[index]}
+                          key={index}
                           onClick={() => this.handleSelect(index)}
                           style={{ color, width: "100%" }}
                         >
-                          <i className={char.icon} />
+                          <i className={char.icon}/>
                           <>
                             {char.title}
                             {this.state.times[index] === 0
@@ -589,6 +660,14 @@ class CharactersModal extends Component {
             </Modal.Footer>
           </div>
         </ModalContainer>
+        {this.state.players.length ===
+          Number(localStorage.getItem("number_of_players")) &&
+        this.state.characters.length ===
+          Number(localStorage.getItem("number_of_players")) ? (
+          <ButtonAlt onClick={this.shuffleRoles}>شروع بازی</ButtonAlt>
+        ) : (
+          <p></p>
+        )}
       </div>
     );
   }
@@ -721,4 +800,22 @@ const FormDiv = styled.form`
     outline: none;
   }
 `;
-export default CharactersModal;
+
+const ButtonAlt = styled.button`
+  border: none;
+  border-radius: 15px;
+  padding: 12px;
+  background: rgba(92, 82, 127, 0.9);
+  color: rgb(80, 203, 147);
+  transition: all 0.2s;
+  &:hover {
+    background: rgba(80, 203, 147, 0.9);
+    color: rgba(92, 82, 127, 2);
+  }
+  font-size: large;
+  font-weight: bold;
+  letter-spacing: 1px;
+  font-family: "Cairo", sans-serif;
+`;
+
+export default withRouter(CharactersModal);
