@@ -36,6 +36,7 @@ const names = [
 
   // ----- Mafia -----
 
+  "simple-mafia",
   "godfather",
   "regicide",
   "sweetheart",
@@ -52,7 +53,6 @@ const names = [
   "double-faced",
   "bomb-maker",
   "charlatan",
-  "simple-mafia",
 
   // ----- Mid Independents -----
 
@@ -420,6 +420,16 @@ const citizens = [
 // ----------------------- MAFIA -------------------------------
 const mafias = [
   {
+    "simple-mafia": {
+      icon: "fa fa-user",
+      title: "مافیا ساده",
+      description:
+        "به همراه گروه مافیا سعی در گمراه کردن شهروندان دارد و توانایی ویژه ای ندارد",
+      max: 10,
+      type: "mafia",
+    },
+  },
+  {
     godfather: {
       icon: "fa fa-black-tie",
       title: "رییس مافیا",
@@ -576,16 +586,6 @@ const mafias = [
       description:
         "دو شب در طول بازی، یک نفر را انتخاب می کند. گرداننده شخصیت آن بازیکن را به کاراگاه برعکس می گوید. اگر جاسوس را انتخاب کند، جاسوس حذف می گردد",
       max: 1,
-      type: "mafia",
-    },
-  },
-  {
-    "simple-mafia": {
-      icon: "fa fa-user",
-      title: "مافیا ساده",
-      description:
-        "به همراه گروه مافیا سعی در گمراه کردن شهروندان دارد و توانایی ویژه ای ندارد",
-      max: 10,
       type: "mafia",
     },
   },

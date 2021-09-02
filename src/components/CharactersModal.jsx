@@ -5,9 +5,11 @@ import characters, { names } from "../utils/characters";
 import styled from "styled-components";
 
 const getNumberOfRegions = () => {
-  const selection_times = JSON.parse(localStorage.getItem("times")) ? JSON.parse(localStorage.getItem("times")) : undefined;
+  const selection_times = JSON.parse(localStorage.getItem("times"))
+    ? JSON.parse(localStorage.getItem("times"))
+    : undefined;
 
-  if (!selection_times) return [0, 0, 0, 0]
+  if (!selection_times) return [0, 0, 0, 0];
 
   const citizens_section_start = 0;
   const citizens_section_finish = 33;
@@ -249,7 +251,8 @@ class CharactersModal extends Component {
     this.setState({ show_3: false, show_2: true });
   };
 
-  handleEditDone = () => {
+  handleEditDone = (e) => {
+    e.preventDefault();
     this.setState({ show_3: false });
     const { name } = { ...this.state.edit_field };
     const idx = localStorage.getItem("edit_idx");
@@ -551,15 +554,17 @@ class CharactersModal extends Component {
                 <Title>نام جدید را وارد کنید</Title>
               </div>
             </Modal.Header>
-            <Input
-              type="text"
-              className="block w-full text-white p-3 rounded mb-4"
-              name="name"
-              placeholder="نام را وارد کنید"
-              id="new_name"
-              onChange={this.handleEditChange}
-              maxLength={12}
-            />
+            <form onSubmit={this.handleEditDone}>
+              <Input
+                type="text"
+                className="block w-full text-white p-3 rounded mb-4"
+                name="name"
+                placeholder="نام را وارد کنید"
+                id="new_name"
+                onChange={this.handleEditChange}
+                maxLength={12}
+              />
+            </form>
             <Modal.Footer>
               <Button
                 style={{
