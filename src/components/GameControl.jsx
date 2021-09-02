@@ -89,15 +89,16 @@ class GameControl extends Component {
   };
 
   showRole = (e) => {
-    const n_p = JSON.parse(localStorage.getItem('n_p'))
+    const n_p = JSON.parse(localStorage.getItem("n_p"));
     const player_name = e.target.innerHTML;
 
-    this.setState({
-      ...this.state,
-      item: characters[names.indexOf(n_p[player_name])][n_p[player_name]],
-      show: true,
-      chosen_player: player_name,
-    });
+    if (n_p[player_name])
+      this.setState({
+        ...this.state,
+        item: characters[names.indexOf(n_p[player_name])][n_p[player_name]],
+        show: true,
+        chosen_player: player_name,
+      });
   };
 
   handleClose = () => {

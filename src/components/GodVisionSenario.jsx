@@ -13,7 +13,7 @@ class GodVisionSenario extends Component {
     fields: {
       player: "",
     },
-    cheked: JSON.parse(localStorage.getItem('checked')),
+    cheked: JSON.parse(localStorage.getItem("checked")),
   };
 
   handleChange = (e) => {
@@ -23,9 +23,15 @@ class GodVisionSenario extends Component {
     this.setState({ fields: changeFields });
   };
 
-  
-
   render() {
+    if (
+      !localStorage.getItem("number_of_players") ||
+      JSON.parse(localStorage.getItem("characters")).length !==
+        Number(localStorage.getItem("number_of_players"))
+    ) {
+      this.props.history.push("/senario");
+      return <></>;
+    }
     const { characters, players, names, n_p } = { ...this.state };
     return (
       <Container>
