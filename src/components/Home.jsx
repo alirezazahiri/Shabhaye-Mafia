@@ -53,6 +53,7 @@ class Home extends Component {
             </Description>
             <MainMenu>
               <Input
+                pattern="\d*"
                 type="number"
                 className="block w-full text-white p-3 rounded mb-4"
                 name="quantity"
