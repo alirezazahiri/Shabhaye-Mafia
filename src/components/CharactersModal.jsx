@@ -1,9 +1,15 @@
 import { Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import React, { Component } from "react";
-import characters, { names } from "../utils/characters";
 import styled from "styled-components";
-import { withRouter } from 'react-router-dom'
+import { withRouter } from "react-router-dom";
+
+import {chars_fa} from "../utils/chars-fa";
+import {chars_en} from "../utils/chars-en";
+
+// translate
+import { objects_fa } from "./translations/CharModal/CharModal-fa";
+import { objects_en } from "./translations/CharModal/CharModal-en";
 
 const getNumberOfRegions = () => {
   const selection_times = JSON.parse(localStorage.getItem("times"))
@@ -96,6 +102,13 @@ class CharactersModal extends Component {
     let times = [...this.state.times];
     let names_alt = [...this.state.names];
     let { type_counts } = { ...this.state };
+
+    const {characters} = localStorage.getItem("language") === "uk"
+    ? chars_en
+    : chars_fa;
+    const {names} = localStorage.getItem("language") === "uk"
+    ? chars_en
+    : chars_fa;
     if (
       times[idx] < characters[idx][names[idx]].max &&
       this.sum(times) < this.state.number_of_players
@@ -125,6 +138,12 @@ class CharactersModal extends Component {
     let characters_alt = [...this.state.characters];
     let names_alt = [...this.state.names];
     let { type_counts } = { ...this.state };
+    const {characters} = localStorage.getItem("language") === "uk"
+    ? chars_en
+    : chars_fa;
+    const {names} = localStorage.getItem("language") === "uk"
+    ? chars_en
+    : chars_fa;
 
     const l_char_idx = this.state.characters.lastIndexOf(characters[idx]);
     const l_name_idx = this.state.names.lastIndexOf(names[idx]);
@@ -148,6 +167,9 @@ class CharactersModal extends Component {
   };
 
   handleReset = () => {
+    const {characters} = localStorage.getItem("language") === "uk"
+    ? chars_en
+    : chars_fa;
     const len = characters.length;
     let times = new Array(len);
     for (let i in characters) {
@@ -224,6 +246,12 @@ class CharactersModal extends Component {
   };
 
   getCharactersButtonList = (type) => {
+    const {characters} = localStorage.getItem("language") === "uk"
+    ? chars_en
+    : chars_fa;
+    const {names} = localStorage.getItem("language") === "uk"
+    ? chars_en
+    : chars_fa;
     const character_list = characters
       .filter((character) => {
         const index = characters.indexOf(character);
@@ -324,7 +352,6 @@ class CharactersModal extends Component {
 
     this.props.history.push("/game-control");
     let { players, characters, names } = { ...this.state };
-
     let new_names = new Array(names.length);
     let new_players = new Array(players.length);
     let indexes = new Array(characters.length);
@@ -356,12 +383,26 @@ class CharactersModal extends Component {
   };
 
   render() {
+    const {
+      prompt_1,
+      prompt_2,
+      prompt_3,
+      prompt_4,
+      side_mafia,
+      side_citizen,
+      side_mid_indep,
+      side_indep,
+      buttons,
+      placeholder_1,
+      start_game,
+    } = localStorage.getItem("language") === "uk" ? objects_en : objects_fa;
+
     const { type_counts } = { ...this.state };
     return (
       <div>
         <ButtonContainer>
           <SelectCharacters onClick={this.handleEnterNames}>
-            نام ها را وارد کنید
+            {prompt_1}
           </SelectCharacters>
         </ButtonContainer>
 
@@ -372,7 +413,7 @@ class CharactersModal extends Component {
               <div>
                 {this.state.number_of_players - this.state.characters.length <=
                 0 ? (
-                  <Title>انجام شد</Title>
+                  <Title>{buttons.done}</Title>
                 ) : (
                   <div
                     style={{
@@ -381,7 +422,7 @@ class CharactersModal extends Component {
                       justifyContent: "space-evenly",
                     }}
                   >
-                    <Title>کاراکتر را انتخاب کنید</Title>
+                    <Title>{prompt_2}</Title>
                     <Title style={{ marginLeft: "5px" }}>
                       {this.state.number_of_players -
                         this.state.characters.length}
@@ -406,7 +447,7 @@ class CharactersModal extends Component {
                           onClick={() => this.handleSelect(index)}
                           style={{ color, width: "100%" }}
                         >
-                          <i className={char.icon}/>
+                          <i className={char.icon} />
                           <>
                             {char.title}
                             {this.state.times[index] === 0
@@ -434,7 +475,7 @@ class CharactersModal extends Component {
                     className="char-gp-btn"
                     style={{ color: this.getColor("citizen") }}
                   >
-                    شهروند ها
+                    {side_citizen}
                     {type_counts["citizen"] && type_counts["citizen"] !== 0 ? (
                       <span>{type_counts["citizen"]}</span>
                     ) : (
@@ -446,8 +487,8 @@ class CharactersModal extends Component {
                     className="char-gp-btn"
                     style={{ color: this.getColor("mafia") }}
                   >
-                    مافیا ها
-                    {type_counts["mafia"] && type_counts["mafia"] !== 0 ? (
+                    {side_mafia}
+                  {type_counts["mafia"] && type_counts["mafia"] !== 0 ? (
                       <span>{type_counts["mafia"]}</span>
                     ) : (
                       ""
@@ -460,7 +501,7 @@ class CharactersModal extends Component {
                     className="char-gp-btn"
                     style={{ color: this.getColor("mid-independent") }}
                   >
-                    نیمه مستقل ها
+                    {side_mid_indep}
                     {type_counts["mid-independent"] &&
                     type_counts["mid-independent"] !== 0 ? (
                       <span>{type_counts["mid-independent"]}</span>
@@ -473,7 +514,7 @@ class CharactersModal extends Component {
                     className="char-gp-btn"
                     style={{ color: this.getColor("independent") }}
                   >
-                    مستقل ها
+                    {side_indep}
                     {type_counts["independent"] &&
                     type_counts["independent"] !== 0 ? (
                       <span>{type_counts["independent"]}</span>
@@ -493,7 +534,7 @@ class CharactersModal extends Component {
                 variant="danger"
                 onClick={this.handleClose}
               >
-                بستن
+                {buttons.close}
               </Button>
               <Button
                 style={{
@@ -503,7 +544,7 @@ class CharactersModal extends Component {
                 variant="primary"
                 onClick={this.handleReset}
               >
-                دوباره
+                {buttons.reset}
               </Button>
               <Button
                 className="footer-btn"
@@ -519,7 +560,7 @@ class CharactersModal extends Component {
                     : "disabled"
                 }
               >
-                انجام شد
+                {buttons.done}
               </Button>
             </Modal.Footer>
           </div>
@@ -529,7 +570,7 @@ class CharactersModal extends Component {
           <div>
             <Modal.Header closeButton>
               {this.state.number_of_players - this.state.players.length <= 0 ? (
-                <Title>انجام شد</Title>
+                <Title>{buttons.done}</Title>
               ) : (
                 <div
                   style={{
@@ -538,7 +579,7 @@ class CharactersModal extends Component {
                     justifyContent: "space-evenly",
                   }}
                 >
-                  <Title>نام را وارد کنید</Title>
+                  <Title>{prompt_3}</Title>
                   <Title style={{ marginLeft: "5px" }}>
                     {this.state.number_of_players - this.state.players.length}
                   </Title>
@@ -560,7 +601,7 @@ class CharactersModal extends Component {
                 type="text"
                 className="block w-full text-white p-3 rounded mb-4"
                 name="name"
-                placeholder="نام را وارد کنید"
+                placeholder={placeholder_1}
                 id="name"
                 onChange={this.handleChange}
                 value={this.state.name}
@@ -576,7 +617,7 @@ class CharactersModal extends Component {
                 variant="danger"
                 onClick={this.handleClose2}
               >
-                بستن
+                {buttons.close}
               </Button>
               <Button
                 style={{
@@ -586,7 +627,7 @@ class CharactersModal extends Component {
                 variant="primary"
                 onClick={this.handleReset2}
               >
-                دوباره
+                {buttons.reset}
               </Button>
               <Button
                 style={{
@@ -597,7 +638,7 @@ class CharactersModal extends Component {
                 type="submit"
                 onClick={this.handleAdd}
               >
-                اضافه کن
+              {buttons.add}
               </Button>
               <Button
                 style={{
@@ -612,7 +653,7 @@ class CharactersModal extends Component {
                     : "disabled"
                 }
               >
-                انجام شد
+              {buttons.done}
               </Button>
             </Modal.Footer>
           </div>
@@ -622,7 +663,7 @@ class CharactersModal extends Component {
           <div>
             <Modal.Header closeButton>
               <div>
-                <Title>نام جدید را وارد کنید</Title>
+                <Title>{prompt_4}</Title>
               </div>
             </Modal.Header>
             <form onSubmit={this.handleEditDone}>
@@ -630,7 +671,7 @@ class CharactersModal extends Component {
                 type="text"
                 className="block w-full text-white p-3 rounded mb-4"
                 name="name"
-                placeholder="نام را وارد کنید"
+                placeholder={placeholder_1}
                 id="new_name"
                 onChange={this.handleEditChange}
                 maxLength={12}
@@ -645,7 +686,7 @@ class CharactersModal extends Component {
                 variant="danger"
                 onClick={this.handleEditClose}
               >
-                بستن
+                {buttons.close}
               </Button>
               <Button
                 className="footer-btn"
@@ -655,7 +696,7 @@ class CharactersModal extends Component {
                 }}
                 onClick={this.handleEditDone}
               >
-                انجام شد
+                {buttons.done}
               </Button>
             </Modal.Footer>
           </div>
@@ -664,7 +705,7 @@ class CharactersModal extends Component {
           Number(localStorage.getItem("number_of_players")) &&
         this.state.characters.length ===
           Number(localStorage.getItem("number_of_players")) ? (
-          <ButtonAlt onClick={this.shuffleRoles}>شروع بازی</ButtonAlt>
+          <ButtonAlt onClick={this.shuffleRoles}>{start_game}</ButtonAlt>
         ) : (
           <p></p>
         )}

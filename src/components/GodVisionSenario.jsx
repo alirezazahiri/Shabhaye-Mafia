@@ -4,6 +4,10 @@ import Card from "./common/Card";
 import styled from "styled-components";
 import DayNightRadio from "./common/DayNightRadio";
 
+// translate
+import { objects_fa } from "./translations/GodVision/GodVision-fa";
+import { objects_en } from "./translations/GodVision/GodVision-en";
+
 class GodVisionSenario extends Component {
   state = {
     characters: JSON.parse(localStorage.getItem("characters")),
@@ -33,17 +37,19 @@ class GodVisionSenario extends Component {
       return <></>;
     }
     const { characters, players, names, n_p } = { ...this.state };
+
+    const { placeholder_1, title } = localStorage.getItem("language") === "uk" ? objects_en : objects_fa; 
     return (
       <Container>
         <Input
           type="text"
           className="block w-full text-white p-3 rounded mb-4"
           name="player"
-          placeholder="... نقش یا بازیکن مورد نظر را جستجو کنید"
+          placeholder={placeholder_1}
           id="player"
           onChange={this.handleChange}
         />
-        <Title>اتاق گرداننده</Title>
+        <Title>{title}</Title>
         <DayNightRadio />
         {players
           .filter((player) => {

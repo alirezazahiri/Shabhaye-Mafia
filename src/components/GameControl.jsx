@@ -4,7 +4,13 @@ import styled from "styled-components";
 import { Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import Card from "./common/Card";
-import characters, { names } from "../utils/characters";
+
+import {chars_fa} from "../utils/chars-fa";
+import {chars_en} from "../utils/chars-en";
+
+// translate
+import { objects_fa } from "./translations/GameControl/GameControl-fa";
+import { objects_en } from "./translations/GameControl/GameControl-en";
 
 class GameControl extends Component {
   state = {
@@ -92,6 +98,13 @@ class GameControl extends Component {
     const n_p = JSON.parse(localStorage.getItem("n_p"));
     const player_name = e.target.innerHTML;
 
+    const {characters} = localStorage.getItem("language") === "uk"
+    ? chars_en
+    : chars_fa;
+    const {names} = localStorage.getItem("language") === "uk"
+    ? chars_en
+    : chars_fa;
+
     if (n_p[player_name])
       this.setState({
         ...this.state,
@@ -138,6 +151,15 @@ class GameControl extends Component {
       this.props.history.push("/");
       return <></>;
     }
+
+    const {
+      buttons,
+      players_title,
+      side_mafia,
+      side_citizen,
+      side_mid_indep,
+      side_indep,
+    } = localStorage.getItem("language") === "uk" ? objects_en : objects_fa;
     const { players, item, chosen_player } = this.state;
     const [citizen, mafia, indep, mid_indep] = this.getNumberOfRegions();
     return (
@@ -164,29 +186,29 @@ class GameControl extends Component {
                 variant="danger"
                 onClick={this.handleClose}
               >
-                بستن
+                {buttons.close}
               </Button>
             </Modal.Footer>
           </div>
         </ModalContainer>
         <PageHeader>
-          <TitleAlt>بازیکن ها</TitleAlt>
+          <TitleAlt>{players_title}</TitleAlt>
           <RegionsNumberSection>
             <div>
               <div>
-                <h2 style={{ color: "#66DE93" }}>شهروند</h2>
+                <h2 style={{ color: "#66DE93" }}>{side_citizen}</h2>
                 <h2 style={{ color: "#66DE93" }}>{citizen}</h2>
               </div>
               <div>
-                <h2 style={{ color: "#DA0037" }}>مافیا</h2>
+                <h2 style={{ color: "#DA0037" }}>{side_mafia}</h2>
                 <h2 style={{ color: "#DA0037" }}>{mafia}</h2>
               </div>
               <div>
-                <h2 style={{ color: "#5C527F" }}>نیمه مستقل</h2>
+                <h2 style={{ color: "#5C527F" }}>{side_mid_indep}</h2>
                 <h2 style={{ color: "#5C527F" }}>{mid_indep}</h2>
               </div>
               <div style={{ borderBottom: "none" }}>
-                <h2 style={{ color: "#F6D167" }}>مستقل</h2>
+                <h2 style={{ color: "#F6D167" }}>{side_indep}</h2>
                 <h2 style={{ color: "#F6D167" }}>{indep}</h2>
               </div>
             </div>
@@ -202,7 +224,7 @@ class GameControl extends Component {
           })}
         </PlayersContainer>
         <RefreshButton id="refresh-btn" onClick={this.shuffleRoles}>
-          بروز رسانی
+          {buttons.update}
         </RefreshButton>
       </Container>
     );

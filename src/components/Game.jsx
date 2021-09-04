@@ -3,6 +3,10 @@ import CharactersModal from "./CharactersModal";
 import Container from "./common/Container";
 import styled from "styled-components";
 
+// translate
+import { objects_fa } from "./translations/Game/Game-fa";
+import { objects_en } from "./translations/Game/Game-en";
+
 class Game extends Component {
   render() {
     if (!localStorage.getItem("number_of_players")) {
@@ -10,13 +14,15 @@ class Game extends Component {
       return <></>;
     }
 
+    const { title, description } =
+      localStorage.getItem("language") === "uk" ? objects_en : objects_fa;
+
     return (
       <Container>
         <Content>
-          <Title>آماده سازی بازی</Title>
+          <Title>{title}</Title>
           <Description>
-            .در این بخش شما میتوانید کاراکتر هایی که آنها را در بازی میخواهید
-            داشته باشید, انتخاب کنید
+            {description}
           </Description>
         </Content>
         <CharactersModal />

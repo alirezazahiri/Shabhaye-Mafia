@@ -1,8 +1,15 @@
 import React, { Component } from "react";
 import Card from "./common/Card";
 import Container from "./common/Container";
-import characters, { names } from "../utils/characters";
+
+import { chars_fa } from "../utils/chars-fa";
+import { chars_en } from "../utils/chars-en";
+
 import styled from "styled-components";
+
+// translations
+import { objects_fa } from './translations/Senario/senario-fa';
+import { objects_en } from './translations/Senario/senario-en';
 
 class Senario extends Component {
   state = {
@@ -13,6 +20,10 @@ class Senario extends Component {
   };
 
   getCharacter = (idx) => {
+    const { characters } =
+      localStorage.getItem("language") === "uk" ? chars_en : chars_fa;
+    const { names } =
+      localStorage.getItem("language") === "uk" ? chars_en : chars_fa;
     return characters[idx][names[idx]];
   };
 
@@ -29,44 +40,59 @@ class Senario extends Component {
   };
 
   render() {
+    const {
+      placeholder_1,
+      title,
+      side_mafia,
+      side_citizen,
+      side_mid_indep,
+      side_indep,
+      side_all,
+    } = localStorage.getItem("language") === "uk" ? objects_en : objects_fa;
+    const { characters } =
+      localStorage.getItem("language") === "uk" ? chars_en : chars_fa;
     return (
       <Container>
         <Input
           type="text"
           className="block w-full text-white p-3 rounded mb-4"
           name="role"
-          placeholder="... نقش مورد نظر را جستجو کنید"
+          placeholder={placeholder_1}
           id="role"
           onChange={this.handleChange}
         />
-        <Title>سناریو ها</Title>
+        <Title>{title}</Title>
         <FilterContainer>
           <button id="mafia" onClick={this.handleChangeType} name="mafia">
-            گروه مافیا
+            {side_mafia}
           </button>
           <button id="citizen" onClick={this.handleChangeType} name="citizen">
-            گروه شهروند
+            {side_citizen}
           </button>
           <button id="all" onClick={this.handleChangeType} name="all">
-            همه نقش ها
+            {side_all}
           </button>
           <button
             id="mid-independent"
             onClick={this.handleChangeType}
             name="mid-independent"
           >
-            گروه نیمه مستقل
+            {side_mid_indep}
           </button>
           <button
             id="independent"
             onClick={this.handleChangeType}
             name="independent"
           >
-            گروه مستقل
+            {side_indep}
           </button>
         </FilterContainer>
         {characters
           .filter((character) => {
+            const { characters } =
+              localStorage.getItem("language") === "uk" ? chars_en : chars_fa;
+            const { names } =
+              localStorage.getItem("language") === "uk" ? chars_en : chars_fa;
             const idx = characters.indexOf(character);
             return character[names[idx]].title
               .trim()
@@ -74,11 +100,19 @@ class Senario extends Component {
               .includes(this.state.fields.role.trim().toLowerCase());
           })
           .filter((character) => {
+            const { characters } =
+              localStorage.getItem("language") === "uk" ? chars_en : chars_fa;
+            const { names } =
+              localStorage.getItem("language") === "uk" ? chars_en : chars_fa;
             const idx = characters.indexOf(character);
             const { type } = { ...this.state };
             return type === "all" ? true : character[names[idx]].type === type;
           })
           .map((character) => {
+            const { characters } =
+              localStorage.getItem("language") === "uk" ? chars_en : chars_fa;
+            const { names } =
+              localStorage.getItem("language") === "uk" ? chars_en : chars_fa;
             const idx = characters.indexOf(character);
             const char = this.getCharacter(idx);
             return (

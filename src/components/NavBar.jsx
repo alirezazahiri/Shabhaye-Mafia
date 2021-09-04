@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -6,20 +6,67 @@ import { NavLink, Link } from "react-router-dom";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
 
+// translate
+import { objects_en } from "./translations/Navbar/NavBar-en";
+import { objects_fa } from "./translations/Navbar/NavBar-fa";
+
 const NavBar = () => {
+  const [lang, setLang] = useState(null);
+
+  const toggleLang = () => {
+    localStorage.setItem("prevLang", lang);
+    const current = localStorage.getItem("language")
+      ? localStorage.getItem("language")
+      : "iran";
+    if (current === "iran") {
+      localStorage.setItem("language", "uk");
+      setLang("uk");
+      console.log("uk");
+    } else {
+      console.log("iran");
+      localStorage.setItem("language", "iran");
+      setLang("iran");
+    }
+    window.location.reload();
+  };
+  const { title, senarios, players, gods_room, game_setup } =
+    localStorage.getItem("language") === "uk" ? objects_en : objects_fa;
   return (
     <Navbar className="bg-black" variant="dark" expand="lg" sticky="top">
       <Container>
         <NavToggle aria-controls="basic-navbar-nav" />
-        <Title to="/">مافیا</Title>
+        <Title to="/">{title}</Title>
         <Navbar.Collapse id="basic-navbar-nav">
           <NavContainer className="me-auto">
-            <NavBarItem to="/game">آماده سازی بازی</NavBarItem>
-            <NavBarItem to="/game-control">بازیکن ها</NavBarItem>
-            {useLocation().pathname === "/" ? "" : <NavBarItem to="/god-vision">اتاق گرداننده</NavBarItem>}
-            <NavBarItem to="/senario">سناریو ها</NavBarItem>
+            <NavBarItem to="/game">{game_setup}</NavBarItem>
+            <NavBarItem to="/game-control">{players}</NavBarItem>
+            {useLocation().pathname === "/" ? (
+              ""
+            ) : (
+              <NavBarItem to="/god-vision">{gods_room}</NavBarItem>
+            )}
+            <NavBarItem to="/senario">{senarios}</NavBarItem>
           </NavContainer>
         </Navbar.Collapse>
+        {useLocation().pathname === "/" ? (
+          <button onClick={toggleLang}>
+            <img
+              src={
+                "./img/" +
+                `${
+                  localStorage.getItem("language")
+                    ? localStorage.getItem("language")
+                    : "iran"
+                }` +
+                "-flag-round-icon-64.png"
+              }
+              alt="fa"
+              style={{ width: "48px", height: "45px" }}
+            />
+          </button>
+        ) : (
+          ""
+        )}
       </Container>
     </Navbar>
   );

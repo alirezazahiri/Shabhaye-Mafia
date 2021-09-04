@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 import Container from "./common/Container";
 import styled from "styled-components";
-import characters from "../utils/characters";
+
+import {chars_fa} from "../utils/chars-fa";
+import {chars_en} from "../utils/chars-en";
+
+// translate
+import { objects_fa } from "./translations/Home/Home-fa";
+import { objects_en } from "./translations/Home/Home-en";
 
 class Home extends Component {
   state = {
@@ -17,7 +23,8 @@ class Home extends Component {
   };
 
   handleStart = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
+    const current_lang = localStorage.getItem("language")
     if (this.state.fields.quantity >= 4 && this.state.fields.quantity <= 80) {
       localStorage.clear();
       document.getElementById("quantity").style = "border: 1px solid green;";
@@ -25,6 +32,10 @@ class Home extends Component {
       localStorage.setItem("number_of_players", this.state.fields.quantity);
       localStorage.setItem("players", JSON.stringify([]));
       localStorage.setItem("characters", JSON.stringify([]));
+      localStorage.setItem("language", current_lang);
+      const {characters} = localStorage.getItem("language") === "uk"
+    ? chars_en
+    : chars_fa;
       let times = new Array(characters.length);
       for (let i in characters) {
         times[i] = 0;
@@ -38,6 +49,9 @@ class Home extends Component {
   };
 
   render() {
+    const { title, description, placeholder_1, start } =
+      localStorage.getItem("language") === "uk" ? objects_en : objects_fa;
+    
     return (
       <Container className="bg-grey-lighter min-h-screen flex flex-col">
         <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
@@ -45,19 +59,15 @@ class Home extends Component {
             id="start-game"
             className="px-6 py-8 rounded shadow-md text-black w-full"
           >
-            <Title className="mb-8 text-3xl text-center">شروع بازی</Title>
-            <Description>
-              ,به برنامه مافیا خوش آمدید <br />
-              ,بازی خود را راحت تر از همیشه مدیریت کنید <br />
-              از بازی کردن با دوستانتان لذت ببرید.
-            </Description>
+            <Title className="mb-8 text-3xl text-center">{title}</Title>
+            <Description>{description}</Description>
             <MainMenu>
               <Input
                 pattern="\d*"
                 type="number"
                 className="block w-full text-white p-3 rounded mb-4"
                 name="quantity"
-                placeholder="تعداد بازیکن ها را وارد کنید"
+                placeholder={placeholder_1}
                 id="quantity"
                 max="80"
                 min="4"
@@ -70,7 +80,7 @@ class Home extends Component {
                 id="start"
                 onClick={this.handleStart}
               >
-                شروع
+                {start}
               </Button>
             </MainMenu>
           </StartGame>
