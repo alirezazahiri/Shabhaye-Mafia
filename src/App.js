@@ -5,6 +5,7 @@ import Senario from './components/Senario';
 import Game from './components/Game';
 import GameControl from './components/GameControl';
 import GodVisionSenario from './components/GodVisionSenario';
+import LanguageChanged from './components/LanguageChanged';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path='/senario' component={ Senario } />
         <Route path='/god-vision' component={ GodVisionSenario } />
         <Route path='/game-control' component={ GameControl } />
+        <Route path='/language-changed' component={ LanguageChanged } />
         <Route path='/game' component={ Game } />
         <Route path='/' component={ Home } exact />
       </Switch>

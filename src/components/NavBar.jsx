@@ -4,13 +4,13 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import { NavLink, Link } from "react-router-dom";
 import styled from "styled-components";
-import { useLocation } from "react-router-dom";
+import { useLocation, withRouter } from "react-router-dom";
 
 // translate
 import { objects_en } from "./translations/Navbar/NavBar-en";
 import { objects_fa } from "./translations/Navbar/NavBar-fa";
 
-const NavBar = () => {
+const NavBar = (props) => {
   const [lang, setLang] = useState(null);
 
   const toggleLang = () => {
@@ -21,31 +21,41 @@ const NavBar = () => {
     if (current === "iran") {
       localStorage.setItem("language", "uk");
       setLang("uk");
-      console.log("uk");
     } else {
-      console.log("iran");
       localStorage.setItem("language", "iran");
       setLang("iran");
     }
-    window.location.reload();
+    props.history.push("/language-changed");
   };
   const { title, senarios, players, gods_room, game_setup } =
     localStorage.getItem("language") === "uk" ? objects_en : objects_fa;
   return (
     <Navbar className="bg-black" variant="dark" expand="lg" sticky="top">
-      <Container>
+      <Container style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
         <NavToggle aria-controls="basic-navbar-nav" />
         <Title to="/">{title}</Title>
         <Navbar.Collapse id="basic-navbar-nav">
           <NavContainer className="me-auto">
-            <NavBarItem to="/game">{game_setup}</NavBarItem>
-            <NavBarItem to="/game-control">{players}</NavBarItem>
-            {useLocation().pathname === "/" ? (
+            {useLocation().pathname !== "/language-changed" ? (
+              <NavBarItem to="/game">{game_setup}</NavBarItem>
+            ) : (
+              ""
+            )}
+            {useLocation().pathname !== "/language-changed" ? (
+              <NavBarItem to="/game-control">{players}</NavBarItem>
+            ) : (
+              ""
+            )}
+            {useLocation().pathname === "/language-changed" ? (
               ""
             ) : (
               <NavBarItem to="/god-vision">{gods_room}</NavBarItem>
             )}
-            <NavBarItem to="/senario">{senarios}</NavBarItem>
+            {useLocation().pathname !== "/language-changed" ? (
+              <NavBarItem to="/senario">{senarios}</NavBarItem>
+            ) : (
+              ""
+            )}
           </NavContainer>
         </Navbar.Collapse>
         {useLocation().pathname === "/" ? (
@@ -122,4 +132,4 @@ const NavToggle = styled(Navbar.Toggle)`
   }
 `;
 
-export default NavBar;
+export default withRouter(NavBar);
