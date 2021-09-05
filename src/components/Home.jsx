@@ -23,7 +23,7 @@ class Home extends Component {
   };
 
   handleStart = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     const current_lang = localStorage.getItem("language")
     if (this.state.fields.quantity >= 4 && this.state.fields.quantity <= 80) {
       localStorage.clear();

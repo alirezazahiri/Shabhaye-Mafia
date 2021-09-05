@@ -2,11 +2,37 @@ import React, { Component } from "react";
 import Container from "./common/Container";
 import styled from "styled-components";
 
+// characters
+import { chars_fa } from "../utils/chars-fa";
+import { chars_en } from "../utils/chars-en";
+
 // translate
 import { objects_fa } from "./translations/LanguageChanged/LanguageChanged-fa";
 import { objects_en } from "./translations/LanguageChanged/LanguageChanged-en";
 
 class LanguageChanged extends Component {
+  componentDidMount() {
+    let names = chars_en.names;
+    let roles_in_game = JSON.parse(localStorage.getItem("names"));
+    let indexes = [];
+    for (let i in roles_in_game) {
+      indexes.push(names.indexOf(roles_in_game[i]));
+    }
+
+    const current_language = localStorage.getItem("language");
+
+    let new_characters = [];
+
+    let { characters } = current_language === "uk" ? chars_en : chars_fa;
+
+    for (let i in indexes) {
+      i = Number(i);
+      const char = characters[indexes[i]];
+      new_characters.push(char);
+    }
+    localStorage.setItem("characters", JSON.stringify(new_characters));
+  }
+
   render() {
     const { message, back_btn } =
       localStorage.getItem("language") === "uk" ? objects_en : objects_fa;
@@ -50,11 +76,11 @@ const Content = styled.div`
 
   border-radius: 12px;
 
-  button { 
+  button {
     color: #da0037;
     transition: color 0.5s;
     &:hover {
-        color: #66de93;
+      color: #66de93;
     }
   }
 `;
