@@ -58,7 +58,6 @@ const NavBar = (props) => {
             )}
           </NavContainer>
         </Navbar.Collapse>
-        {useLocation().pathname === "/" ? (
           <button onClick={toggleLang}>
             <img
               src={
@@ -74,9 +73,6 @@ const NavBar = (props) => {
               style={{ width: "48px", height: "45px" }}
             />
           </button>
-        ) : (
-          ""
-        )}
       </Container>
     </Navbar>
   );

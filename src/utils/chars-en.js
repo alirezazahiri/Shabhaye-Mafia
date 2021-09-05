@@ -423,7 +423,7 @@ const mafias = [
       icon: "fa fa-user",
       title: "Simple Mafia",
       description:
-        "به همراه گروه مافیا سعی در گمراه کردن شهروندان دارد و توانایی ویژه ای ندارد",
+        "It is among the mafia's squad and tries to misguide citizens, and has no special abilities",
       max: 10,
       type: "mafia",
     },
@@ -433,7 +433,7 @@ const mafias = [
       icon: "fa fa-black-tie",
       title: "Godfather",
       description:
-        "هرشب تصمیم می گیرد چه کسی را بکشند. مافیا به گرگ نما و سندیکا نمی توانند حمله کنند. رییس توسط کاراگاه شناسایی نمی شود",
+        "Everynight decides to kill someone (has no effect on werewolf and sandica). can NOT be recognized by detective",
       max: 1,
       type: "mafia",
     },
@@ -443,7 +443,7 @@ const mafias = [
       icon: "fa fa-tint",
       title: "Regicide",
       description:
-        "دوبار در طول شب یا مرحله دوم رای گیری می تواند نقش بازیکنی را حدس بزند. اگر درست حدس زده باشد آن بازیکن از بازی حذف می شود",
+        "Two times on the second voting turn can guess someone's role, if he guesses correct, that player would be eliminated",
       max: 1,
       type: "mafia",
     },
@@ -453,7 +453,7 @@ const mafias = [
       icon: "fa fa-heart",
       title: "Sweetheart",
       description:
-        "با مرگ او مافیا از شدت خشم به دو نفر حمله می کنند. با مرگ رییس مافیا، او جای رییس را می گیرد",
+        "As she dies mafia revenges by killing 2 people at night, if the godfather dies she will be the alternative",
       max: 1,
       type: "mafia",
     },
@@ -463,7 +463,7 @@ const mafias = [
       icon: "fa fa-handshake-o",
       title: "Psychologist",
       description:
-        "یک شب به جز شب اول بازی، یک نفر را انتخاب می کند. آن شخص با حفظ قابلیت هایش به یک مافیا تبدیل می شود. (به غیر از جانی و شخصیت های مستقل)",
+        "One night except the first night, it chooses a player, and the chosen player turns into a mafia with keeping it's abilities (except Malefactor and Independent's Squad)",
       max: 1,
       type: "mafia",
     },
@@ -473,7 +473,7 @@ const mafias = [
       icon: "fa fa-flickr",
       title: "Naughty",
       description:
-        "یک شب در طول بازی یک نفر را انتخاب میکند و رای آن شخص فردا شمرده نمی شود. در مرحله دوم رای گیری، 2 رای به یک نفر یا 1 رای به دو نفر می دهد",
+        "One night he chooses a player and that player's votes will not count tommorow, and at the second voting turn, he can vote a person two times or vote two people",
       max: 1,
       type: "mafia",
     },
@@ -483,7 +483,7 @@ const mafias = [
       icon: "fa fa-500px",
       title: "Slayer",
       description:
-        "یک شب در طول بازی یک نفر را انتخاب می کند. آن شخص 3 روز بعد وسط روز می میرد (تحت هر شرایطی). اگر به گرگ نما یا هزار چهره حمله کند، قاتل از بازی خارج می شود",
+        "One night he chooses a player, and that player dies after 3 days in the middle of the day (under any circumstances), if he attacks Werewolf or Thousand-Faced, he will be eliminated by god",
       max: 1,
       type: "mafia",
     },
@@ -493,7 +493,7 @@ const mafias = [
       icon: "fa fa-drupal",
       title: "Dark Blood",
       description:
-        "یک شب در طول بازی می تواند ناقل را بکشد یا یک بازیکن آلوده را نجات دهد. اگر توسط گرگ نما انتخاب شود، به گرگ نما تبدیل نمی شود و آن گرگ نما می میرد",
+        "One night he can kill the Contagious or save an infected player, if the Werewolf chooses him, he will NOT turn to a werewolf, and that werewolf dies",
       max: 1,
       type: "mafia",
     },
@@ -503,7 +503,7 @@ const mafias = [
       icon: "fa fa-flask",
       title: "Pharmacist",
       description:
-        "سه شب در طول بازی یک نفر را انتخاب میکند و به آن ها داروی مخصوص کرونا می دهد. همچنین به اولین نفر (غیر مافیایی) که انتخابش کند در ازای قابلیتش دارو می دهد. دارو باعث می شود بازیکن تا 3 شبانه روز آلوده نشود",
+        "# nights in the game it can choose a player to give 'em the Corona's cure, and also it gives the cure to the first none-mafia player, and the cure keeps him safe from being infected for 3 days",
       max: 1,
       type: "mafia",
     },
@@ -513,7 +513,7 @@ const mafias = [
       icon: "fa fa-eyedropper",
       title: "Injector",
       description:
-        "یک شب در طول بازی یک نفر را انتخاب میکند. گرداننده، هویت بازیکن و کاری که آن شب انجام داده است را به آمپول زن می گوید",
+        "One night in the game he chooses a player, and god will tell him the role of that player and the job done by that player at that night",
       max: 1,
       type: "mafia",
     },
@@ -523,7 +523,7 @@ const mafias = [
       icon: "fa fa-grav",
       title: "Nightmare",
       description:
-        "هر بازیکنی او را در شب انتخاب کند دچار کابوس می شود. بازیکنی که اسیر می شود باید هرشب بیدار شود و اگر در شبی بیدار نشود، به خواب ابدی فرو میرود و حذف می گردد",
+        "Any player that he chooses gets an endless nightmare, the player that has a nightmare should be awake everynight, otherwise the nightmare kills them",
       max: 1,
       type: "mafia",
     },
@@ -533,7 +533,7 @@ const mafias = [
       icon: "fa fa-hotel",
       title: "Night SLeeper",
       description:
-        "هر شب یک نفر را انتخاب می کند. آن شخص به مدت 24ساعت هر کاری که انجام دهد، به خودش بر می گردد. اگر جادوگر را انتخاب کند، شب خسب از بازی حذف می گردد",
+        "Everynight he chooses a player and the ability of that player will be used against itself, if he chooses the Witch he will be eliminated",
       max: 1,
       type: "mafia",
     },
@@ -543,7 +543,7 @@ const mafias = [
       icon: "fa fa-user-md",
       title: "Surgeon",
       description:
-        "هر شب یک نفر را از حمله مرگبار نجات می دهد. فقط یک شب میتواند خودش را انتخاب کند و نجات دهد. در شب معارفه برای گمراه کردن شهردار، همزمان با دکتر دست بلند می کند",
+        "Everynight he can save one mafia (can choose himself only once), rises a hand with the Doctor at the introduction night for the Mayor",
       max: 1,
       type: "mafia",
     },
@@ -553,7 +553,7 @@ const mafias = [
       icon: "fa fa-car",
       title: "Guard",
       description:
-        "تا زمانی که در بازی حضور دارد، حمله جانی، گرگ نما، فدایی، دست کج و سندیکا (لیست سیاه) به رئیس مافیا بی اثر است. در صورت حذف رئیس مافیا، محافظ از معشوقه محافظت می کند",
+        "While he is in the game the attacks of Malefactor, Werewolf, Crooked-hands and Sandica has no impact on the Godfather, if the Godfather dies he protects Sweetheart",
       max: 1,
       type: "mafia",
     },
@@ -563,7 +563,7 @@ const mafias = [
       icon: "fa fa-american-sign-language-interpreting",
       title: "Double-Faced",
       description:
-        "تمام افراد مافیا را می شناسد اما آنها او را نمی شناسند. اگر کاراگاه از او استعلام بگیرد، گرداننده می گوید شهروند است. هرگز همراه با مافیا چشم باز نمی کند",
+        "Knows all the Mafia, but the mafia dont know him, the Detective's inquiry on Double-Faced is always a citizen, and he never opens his eyes with mafia",
       max: 1,
       type: "mafia",
     },
@@ -573,7 +573,7 @@ const mafias = [
       icon: "fa fa-bomb",
       title: "Bomber",
       description:
-        "یک روز در طول بازی تا قبل از پایان مرحله اول رای گیری با اعلام کلمه بمب ساز بلند می شود. و با نزدیک شدن به یک نفر، او را بصورت انتحاری همراه با خود از بازی خارج می کند",
+        "one day in the game before the voting starts chooses a player to take them out of the game with himself",
       max: 1,
       type: "mafia",
     },
@@ -583,7 +583,7 @@ const mafias = [
       icon: "fa fa-hand-rock-o",
       title: "Charlatan",
       description:
-        "دو شب در طول بازی، یک نفر را انتخاب می کند. گرداننده شخصیت آن بازیکن را به کاراگاه برعکس می گوید. اگر جاسوس را انتخاب کند، جاسوس حذف می گردد",
+        "Two nights in the game he can choose a player and the inquiry of that player will be reversed ('mafia into citizen' and 'citizen into mafia') if he chooses the Spy, the Spy will be eliminated",
       max: 1,
       type: "mafia",
     },

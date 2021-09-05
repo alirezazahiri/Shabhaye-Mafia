@@ -41,7 +41,7 @@ class LanguageChanged extends Component {
         <Content>
           <Description>{message}</Description>
           <button
-            onClick={() => this.props.history.push("/")}
+            onClick={() => window.history.back()}
             style={{ fontFamily: "Cairo, sans-serif" }}
           >
             {back_btn}
