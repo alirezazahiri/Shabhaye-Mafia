@@ -146,14 +146,13 @@ class CharactersModal extends Component {
     const { names } =
       localStorage.getItem("language") === "uk" ? chars_en : chars_fa;
 
-    const l_char_idx = this.state.characters.lastIndexOf(characters[idx]);
     const l_name_idx = this.state.names.lastIndexOf(names[idx]);
 
     if (times[idx] > 0) {
       times[idx]--;
       const type = characters[idx][names[idx]].type;
       type_counts[type]--;
-      characters_alt.splice(l_char_idx, 1);
+      characters_alt.splice(l_name_idx, 1);
       names_alt.splice(l_name_idx, 1);
       this.setState({
         characters: characters_alt,
