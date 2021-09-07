@@ -31,9 +31,31 @@ const NavBar = (props) => {
     localStorage.getItem("language") === "uk" ? objects_en : objects_fa;
   return (
     <Navbar className="bg-black" variant="dark" expand="lg" sticky="top">
-      <Container style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+      <Container
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center"
+        }}
+      >
         <NavToggle aria-controls="basic-navbar-nav" />
         <Title to="/">{title}</Title>
+        <button onClick={toggleLang}>
+          <img
+            src={
+              "./img/" +
+              `${
+                localStorage.getItem("language")
+                  ? localStorage.getItem("language")
+                  : "iran"
+              }` +
+              "-flag-round-icon-64.png"
+            }
+            alt="fa"
+            style={{ width: "32px", height: "32px" }}
+          />
+        </button>
         <Navbar.Collapse id="basic-navbar-nav">
           <NavContainer className="me-auto">
             {useLocation().pathname !== "/language-changed" ? (
@@ -58,21 +80,6 @@ const NavBar = (props) => {
             )}
           </NavContainer>
         </Navbar.Collapse>
-          <button onClick={toggleLang}>
-            <img
-              src={
-                "./img/" +
-                `${
-                  localStorage.getItem("language")
-                    ? localStorage.getItem("language")
-                    : "iran"
-                }` +
-                "-flag-round-icon-64.png"
-              }
-              alt="fa"
-              style={{ width: "48px", height: "45px" }}
-            />
-          </button>
       </Container>
     </Navbar>
   );

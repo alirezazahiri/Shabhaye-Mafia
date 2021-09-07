@@ -119,6 +119,7 @@ class Senario extends Component {
               <Card
                 key={names[idx]}
                 title={char.title}
+                html={char.html}
                 description={char.description}
                 icon={char.icon}
                 type={char.type}

@@ -25,7 +25,7 @@ const names = [
   "baker",
   "nurse",
   "quarantiner",
-  "predator",
+  "hunter",
   "simin",
   "link",
   "poplar",
@@ -80,7 +80,8 @@ const citizens = [
     "simple-citizen": {
       icon: "fa fa-user",
       title: "Simple Citizen",
-      description: "Takes part in finding the mafia, and has no special abilities.",
+      description:
+        "Takes part in finding the mafia, and has no special abilities.",
       max: 10,
       type: "citizen",
     },
@@ -336,11 +337,11 @@ const citizens = [
     },
   },
   {
-    predator: {
+    hunter: {
       icon: "fa fa-pied-piper-alt",
-      title: "Predator",
+      title: "hunter",
       description:
-        "Every two nights in the game it can choose a player, if the target is werewolf it will be eliminated, at the night phase the only killer of the werewolf is the Predator",
+        "Every two nights in the game it can choose a player, if the target is werewolf it will be eliminated, at the night phase the only killer of the werewolf is the hunter",
       max: 1,
       type: "citizen",
     },
@@ -596,7 +597,7 @@ const mid_independents = [
       icon: "fa fa-hand-o-left",
       title: "Malefactor",
       description:
-        "هر دو شب در طول بازی یک نفر را می کشد و در این شب از حمله مافیا در امان است. شرط پیروزی او ابتدا حذف مافیا و شخصیت های مستقل، پس از آن باقی ماندن بین دو نفر آخر است. (در ابتدا با شهروندان است، در انتها مستقل)",
+        "Every two nights in the game can kill someone, and saves himself from the mafia's attack, the condition of his win is the elimination of all mafia and independent chracters and staying in the last two people in the game. (at first he is in citizen's side but in the end he is on independent side)",
       max: 1,
       type: "mid-independent",
     },
@@ -606,7 +607,7 @@ const mid_independents = [
       icon: "fa fa-question",
       title: "Unknown",
       description:
-        "در ابتدای بازی متعلق به هیچ گروهی نیست. اولین بار که توسط شخصی انتحاب شود، اتفاقی برایش نمی افتد و با آن شخص هم گروه می شود، اما قابلیت خاصی ندارد",
+        "It does not belong to any group at the beginning of the game. The first time he is chosen by someone, nothing happens to him and he joins that person's side, but he does not have any special abilities.",
       max: 1,
       type: "mid-independent",
     },
@@ -616,7 +617,7 @@ const mid_independents = [
       icon: "fa fa-slideshare",
       title: "Twin",
       description:
-        "در ابتدای بازی متعلق به هیچ گروهی نیست. هرشب که بخواهد یک نفر را انتخاب می کند . هر زمان آن بازیکن حذف شود، همزاد جایش را با حفظ تمام قابلیت ها می گیرد و شرط پیروزی او همانند همان بازیکن می شود",
+        "Belongs to none of the existing sides, but any night he wants, he chooses a person and after that person dies he replaces with that person and gets all the abilities of that person.",
       max: 1,
       type: "mid-independent",
     },
@@ -626,7 +627,7 @@ const mid_independents = [
       icon: "fa fa-snowflake-o",
       title: "Sick",
       description:
-        "در ابتدای بازی متعلق به هیچ گروهی نیست. اولین بار که توسط شخصی انتخاب شود، اتفاقی برایش نمی افتد و نقش آن بازیکن را کامل تصاحب می کند. آن بازیکن تبدیل به شخصیت ساده می شود و همچنین آلوده به کرونا شده است",
+        "It does not belong to any group at the beginning of the game. The first time he is chosen by someone, nothing happens to him and he takes on the role of that player completely. That player becomes a simple character and is also infected with Corona",
       max: 1,
       type: "mid-independent",
     },
@@ -636,7 +637,7 @@ const mid_independents = [
       icon: "fa fa-gratipay",
       title: "Dearest",
       description:
-        "در شب های فرد دو نفر را انتخاب می کند و نقش های آن ها را می فهمد. جانی در شب بعدش باید یکی از این دو نفر را بکشد. شرط پیروزی او ماندن خودش یا جانی بین 2 نفر آخر است",
+        "On odd nights, she chooses two people and understands their roles. Malefactor has to kill one of the two the next night. The condition for her victory is to stay herself or Malefactor between the last 2 people",
       max: 1,
       type: "mid-independent",
     },
@@ -649,7 +650,7 @@ const independents = [
       icon: "fa fa-users",
       title: "Thousand-Faced",
       description:
-        "شخصیت هر بازیکنی که با رای گیری از بازی خارج می شود را به مدت 24 ساعت تصاحب می کند. هر شخصی که کاری روی او انجام دهد، اثر آن کار به خودش بر می گردد (آیینه وار) شرط پیروزی او باقی ماندن بین سه نفر آخر است",
+        "Owns the character of each player who leaves the game (by voting) for 24 hours. Every person who does something on him, the effect of that work comes back to him (like a mirror). The condition for his victory is to remain among the last three people.",
       max: 1,
       type: "independent",
     },
@@ -659,7 +660,7 @@ const independents = [
       icon: "fa fa-odnoklassniki",
       title: "Deputy",
       description:
-        "تا زمانی که دکتر یا جراح در بازی حضور داشته باشند، در شب کشته نمی شود. شهردار را می شناسد. به عنوان هویت، یک بدل دارد و زمانی که دکتر و جراح از بازی حذف شوند، یک تیر خواهد داشت . شرط پیروزی او، پیروزی هزار چهره است",
+        "He will not be killed at night as long as the doctor or surgeon is present. Knows the mayor. As an identity, it has a counterpart and will have a shot when the doctor and surgeon (both) are removed from the game. The condition for his victory is the victory of Thousand-Faced",
       max: 1,
       type: "independent",
     },
@@ -669,7 +670,7 @@ const independents = [
       icon: "fa fa-resistance",
       title: "Evil",
       description:
-        "از شب دوم، هرشب باید به تعداد عدد آن شب از بین بازیکنان افرادی را انتخاب کند. اگر بازیکن ها همرنگ باشند، همگی حذف می شوند. شرط پیروزی او، پیروزی هزار چهره است",
+        "From the second night, each night must choose the number of players (equal to the number of that night). If the players are the same color (side), they are all eliminated. The condition for his victory is the victory of Thousand-Faced",
       max: 1,
       type: "independent",
     },
@@ -679,7 +680,7 @@ const independents = [
       icon: "fa fa-gitlab",
       title: "Werewolf",
       description:
-        "هر 3 شب در طول بازی یک نفر را به گرگ نما تبدیل می کند. حمله او به شکارچی و کشیش بی اثر است. در شب فقط شکارچی می تواند گرگ نما را بکشد. شرط پیروزی او به دست آوردن حداقل نصف افراد شهر است",
+        "Every 3 nights during the game, he turns a person into a wolf. His attack on the hunter and the priest is ineffective. At night only a hunter can kill a wolf. The condition for his victory is to get at least half of the people of the city",
       max: 1,
       type: "independent",
     },
@@ -689,7 +690,7 @@ const independents = [
       icon: "fa fa-stumbleupon",
       title: "Hybrid",
       description:
-        "هر شب یک نفر را انتخاب می کند. گرداننده گرگ نما بودن آن بازیکن را به سیمین برعکس می گوید. گرگ نمایی است که قدرت تکثیر ندارد و توسط سیمین قابل شناسایی نیست. اگر کشیش را انتخاب کند، دورگه حذف می شود",
+        "He chooses one person every night. God tells Simin the opposite of that player being a wolf. It is a wolf that has no reproductive power and cannot be identified by Simin. If he chooses the Priest, the hybrid is removed",
       max: 1,
       type: "independent",
     },
@@ -709,7 +710,7 @@ const independents = [
       icon: "fa fa-usb",
       title: "Emad",
       description:
-        "در شب معارفه دو نفر را به عنوان پیش مرگ انتخاب می کند که با حفظ قابلیتشان جزو گروه او می شوند. هر وقت او بخواهد، کار آنها را انجام می دهد و هرکس به عماد حمله کند، آن دو پیش مرگ او می شوند. شرط پیروزی آنها، باقی ماندن عماد بین 3 نفر آخر است",
+        "On the night of the introduction, he chooses two people as his devotees who join his group while maintaining their abilities. Whenever he wants, he does their job and whoever attacks Emad, those two will predecease. The condition for their victory is that Emad remains among the last 3 people",
       max: 1,
       type: "independent",
     },
@@ -719,7 +720,7 @@ const independents = [
       icon: "fa fa-bug",
       title: "Corona",
       description:
-        "در صورت هر نوع تماس با کرونا یا بازیکن آلوده به کرونا، آلوده می شوید. 24 ساعت اول ابتلا، دوره مخفی بیماری است و از روز دوم، علائم بیماری مانند بیمار شدن توسط ناقل خواهد بود اما با قدرت سرایت بیشتر. شرط پیروزی او، حذف شدن تمام بازیکنان است، چه کرونا زنده باشد و چه مرده",
+        "You get infected if you come in contact with a corona or a corona-infected player. The first 24 hours of infection are the latent period of the disease, and from the second day, the symptoms of the disease will be the same as being infected by a Contagious, but with more contagion. The condition for his victory is the elimination of all players, whether Corona is alive or dead",
       max: 1,
       type: "independent",
     },
@@ -729,7 +730,21 @@ const independents = [
       icon: "fa fa-bandcamp",
       title: "Saghar",
       description:
-        "هرشب میتواند یکی از معجون هایش را استفاده کند. هر معجون به ساغر قابلیت خاص می بخشد. شرط پیروزی او، باقی ماندن بین 3 نفر آخر است",
+        "She can use one of her potions every night. Each potion gives Saghar a special ability. The condition for her victory is to stay among the last 3 people.",
+      html: `
+      <div>
+        <div class="p-2" style="border: 0.5px solid #5C527F; border-radius: 12px; background: rgba(0, 0, 0, 0.2);">
+          <p style="text-align: center; border-bottom: 1px solid #5C527F; color: #5C527F;">She has 8 potions</p> 
+          <p style="text-align: center; border-bottom: 1px solid rgba(0, 0, 0, 0.2);"><span style="color: #5C527F;">Death</span></br> eliminates the target </p>
+          <p style="text-align: center; border-bottom: 1px solid rgba(0, 0, 0, 0.2);"><span style="color: #5C527F;">Citizen-killer</span></br> by using this, God will choose a random citizen to eliminate </p>
+          <p style="text-align: center; border-bottom: 1px solid rgba(0, 0, 0, 0.2);"><span style="color: #5C527F;">Mafia-killer</span></br> by using this, God will choose a random mafia to eliminate</p>
+          <p style="text-align: center; border-bottom: 1px solid rgba(0, 0, 0, 0.2);"><span style="color: #5C527F;">Reveal</span></br> the target should reveal his/her role to all the players</p>
+          <p style="text-align: center; border-bottom: 1px solid rgba(0, 0, 0, 0.2);"><span style="color: #5C527F;">Sickening</span></br> the target will get sick with no signs and after 48 hours will be eliminated in the middle of the day (This sickness is not contagious)</p>
+          <p style="text-align: center; border-bottom: 1px solid rgba(0, 0, 0, 0.2);"><span style="color: #5C527F;">Craziness</span></br> by using this the target can't use his/her ability that night, but instead chooses a player and the chosen player will be eliminated, and the player is silenced for 24 hours</p>
+          <p style="text-align: center;"><span style="color: #5C527F;">Undying</span></br> she has two Undying potions, by using them she can't be eliminated, except by voting</p>
+        </div>
+      </div>
+      `,
       max: 1,
       type: "independent",
     },

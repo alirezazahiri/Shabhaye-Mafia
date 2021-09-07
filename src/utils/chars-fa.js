@@ -25,7 +25,7 @@ const names = [
   "baker",
   "nurse",
   "quarantiner",
-  "predator",
+  "hunter",
   "simin",
   "link",
   "poplar",
@@ -337,7 +337,7 @@ const citizens = [
     },
   },
   {
-    predator: {
+    hunter: {
       icon: "fa fa-pied-piper-alt",
       title: "شکارچی",
       description:
@@ -605,7 +605,7 @@ const mid_independents = [
     "unknown": {
       icon: "fa fa-question",
       title: "مجهول",
-      description: "در ابتدای بازی متعلق به هیچ گروهی نیست. اولین بار که توسط شخصی انتحاب شود، اتفاقی برایش نمی افتد و با آن شخص هم گروه می شود، اما قابلیت خاصی ندارد",
+      description: "در ابتدای بازی متعلق به هیچ گروهی نیست. اولین بار که توسط شخصی انتخاب شود، اتفاقی برایش نمی افتد و با آن شخص هم گروه می شود، اما قابلیت خاصی ندارد",
       max: 1,
       type: "mid-independent",
     },
@@ -717,6 +717,20 @@ const independents = [
       icon: "fa fa-bandcamp",
       title: "ساغر",
       description: "هرشب میتواند یکی از معجون هایش را استفاده کند. هر معجون به ساغر قابلیت خاص می بخشد. شرط پیروزی او، باقی ماندن بین 3 نفر آخر است",
+      html: `
+      <div>
+        <div class="p-2" style="border: 0.5px solid #5C527F; border-radius: 12px; background: rgba(0, 0, 0, 0.2);">
+          <p style="text-align: center; border-bottom: 1px solid #5C527F; color: #5C527F;">او 8 معجون دارد</p> 
+          <p style="text-align: center; border-bottom: 1px solid rgba(0, 0, 0, 0.2);"><span style="color: #5C527F;">مرگ</span></br> بازیکن را حذف میکند </p>
+          <p style="text-align: center; border-bottom: 1px solid rgba(0, 0, 0, 0.2);"><span style="color: #5C527F;">شهروند کش</span></br> گرداننده یک شهروند را به طور تصادفی انتخاب و حذف میکند </p>
+          <p style="text-align: center; border-bottom: 1px solid rgba(0, 0, 0, 0.2);"><span style="color: #5C527F;">مافیا کش</span></br> گرداننده یک مافیا را به طور تصادفی انتخاب و حذف میکند</p>
+          <p style="text-align: center; border-bottom: 1px solid rgba(0, 0, 0, 0.2);"><span style="color: #5C527F;">افشا</span></br> بازیکنی که این معجون به او داده شده است باید نقشش را به طور واضح به همه بگوید</p>
+          <p style="text-align: center; border-bottom: 1px solid rgba(0, 0, 0, 0.2);"><span style="color: #5C527F;">بیمار کننده</span></br>  بازیکنی که این معجون به او داده شده بدون هیچ علامتی بعد از 48 ساعت در وسط روز از بازی حذف میشود(بیماری واگیردار نیست) </p>
+          <p style="text-align: center; border-bottom: 1px solid rgba(0, 0, 0, 0.2);"><span style="color: #5C527F;">جنون آور</span></br> با استفاده از این معجون بازیکن نمیتواند از قابلیتش در شب استفاده کند و  به جای آن باید یک نفر را انتخاب کند تا آن شخص از بازی حذف شود و خودش هم به مدت 24 ساعت ساکت می ماند</p>
+          <p style="text-align: center;"><span style="color: #5C527F;">نامیرایی</span></br> دو معجون نامیرایی دارد که باعث میشود از بازی حذف نشود (مگر در رای گیری)</p>
+        </div>
+      </div>
+      `,
       max: 1,
       type: "independent",
     },

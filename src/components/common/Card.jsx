@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import parse from "html-react-parser";
 
 const Card = ({
   title,
   description,
+  html,
   type,
   icon,
   p_name,
@@ -79,7 +81,10 @@ const Card = ({
             </button>
           </StatContainer>
         ) : (
-          <p className="w-100 text-sm tracking-wide">{description}</p>
+          <div>
+            <p className="w-100 text-sm tracking-wide">{description}</p>
+            {html && parse(html)}
+          </div>
         )}
       </div>
     </Content>
