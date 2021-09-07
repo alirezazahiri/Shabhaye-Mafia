@@ -118,6 +118,7 @@ const Title = styled(Link)`
   font-size: 28px;
   font-weight: 900;
   text-decoration: none;
+  margin-right: 20px;
 `;
 
 const NavToggle = styled(Navbar.Toggle)`

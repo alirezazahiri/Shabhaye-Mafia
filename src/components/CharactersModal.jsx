@@ -4,8 +4,10 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 
-import {chars_fa} from "../utils/chars-fa";
-import {chars_en} from "../utils/chars-en";
+import Card from "./common/Card"
+
+import { chars_fa } from "../utils/chars-fa";
+import { chars_en } from "../utils/chars-en";
 
 // translate
 import { objects_fa } from "./translations/CharModal/CharModal-fa";
@@ -54,6 +56,7 @@ class CharactersModal extends Component {
     show: false,
     show_2: false,
     show_3: false,
+    show_4: false,
     number_of_players: localStorage.getItem("number_of_players"),
     selected: 0,
     times: JSON.parse(localStorage.getItem("times")),
@@ -68,6 +71,8 @@ class CharactersModal extends Component {
       name: "",
       idx: undefined,
     },
+
+    info_char: undefined,
 
     type_counts: {
       citizen: getNumberOfRegions()[0],
@@ -103,12 +108,10 @@ class CharactersModal extends Component {
     let names_alt = [...this.state.names];
     let { type_counts } = { ...this.state };
 
-    const {characters} = localStorage.getItem("language") === "uk"
-    ? chars_en
-    : chars_fa;
-    const {names} = localStorage.getItem("language") === "uk"
-    ? chars_en
-    : chars_fa;
+    const { characters } =
+      localStorage.getItem("language") === "uk" ? chars_en : chars_fa;
+    const { names } =
+      localStorage.getItem("language") === "uk" ? chars_en : chars_fa;
     if (
       times[idx] < characters[idx][names[idx]].max &&
       this.sum(times) < this.state.number_of_players
@@ -138,12 +141,10 @@ class CharactersModal extends Component {
     let characters_alt = [...this.state.characters];
     let names_alt = [...this.state.names];
     let { type_counts } = { ...this.state };
-    const {characters} = localStorage.getItem("language") === "uk"
-    ? chars_en
-    : chars_fa;
-    const {names} = localStorage.getItem("language") === "uk"
-    ? chars_en
-    : chars_fa;
+    const { characters } =
+      localStorage.getItem("language") === "uk" ? chars_en : chars_fa;
+    const { names } =
+      localStorage.getItem("language") === "uk" ? chars_en : chars_fa;
 
     const l_char_idx = this.state.characters.lastIndexOf(characters[idx]);
     const l_name_idx = this.state.names.lastIndexOf(names[idx]);
@@ -167,9 +168,8 @@ class CharactersModal extends Component {
   };
 
   handleReset = () => {
-    const {characters} = localStorage.getItem("language") === "uk"
-    ? chars_en
-    : chars_fa;
+    const { characters } =
+      localStorage.getItem("language") === "uk" ? chars_en : chars_fa;
     const len = characters.length;
     let times = new Array(len);
     for (let i in characters) {
@@ -246,12 +246,10 @@ class CharactersModal extends Component {
   };
 
   getCharactersButtonList = (type) => {
-    const {characters} = localStorage.getItem("language") === "uk"
-    ? chars_en
-    : chars_fa;
-    const {names} = localStorage.getItem("language") === "uk"
-    ? chars_en
-    : chars_fa;
+    const { characters } =
+      localStorage.getItem("language") === "uk" ? chars_en : chars_fa;
+    const { names } =
+      localStorage.getItem("language") === "uk" ? chars_en : chars_fa;
     const character_list = characters
       .filter((character) => {
         const index = characters.indexOf(character);
@@ -382,6 +380,18 @@ class CharactersModal extends Component {
     });
   };
 
+  handleShowCharacterInfo = (idx) => {
+    const { characters, names } =
+      localStorage.getItem("language") === "uk" ? chars_en : chars_fa;
+
+    const info_char = characters[idx][names[idx]];
+    this.setState({ show: false, show_4: true, info_char });
+  };
+
+  handleCloseCharacterInfo = () => {
+    this.setState({ show: true, show_4: false })
+  };
+
   render() {
     const {
       prompt_1,
@@ -397,7 +407,7 @@ class CharactersModal extends Component {
       start_game,
     } = localStorage.getItem("language") === "uk" ? objects_en : objects_fa;
 
-    const { type_counts } = { ...this.state };
+    const { type_counts, info_char } = { ...this.state };
     return (
       <div>
         <ButtonContainer>
@@ -441,6 +451,12 @@ class CharactersModal extends Component {
                     const color = this.getColor(char.type);
                     return (
                       <CharacterButtonContainer key={`${char.type}-${index}`}>
+                        <button
+                          className="bg-purple-800 hover:bg-purple-900 bg-blend-darken transition duration-300"
+                          onClick={() => this.handleShowCharacterInfo(index)}
+                        >
+                          <i className="fa fa-info"></i>
+                        </button>
                         <button
                           id="char-btn"
                           key={index}
@@ -488,7 +504,7 @@ class CharactersModal extends Component {
                     style={{ color: this.getColor("mafia") }}
                   >
                     {side_mafia}
-                  {type_counts["mafia"] && type_counts["mafia"] !== 0 ? (
+                    {type_counts["mafia"] && type_counts["mafia"] !== 0 ? (
                       <span>{type_counts["mafia"]}</span>
                     ) : (
                       ""
@@ -638,7 +654,7 @@ class CharactersModal extends Component {
                 type="submit"
                 onClick={this.handleAdd}
               >
-              {buttons.add}
+                {buttons.add}
               </Button>
               <Button
                 style={{
@@ -653,7 +669,7 @@ class CharactersModal extends Component {
                     : "disabled"
                 }
               >
-              {buttons.done}
+                {buttons.done}
               </Button>
             </Modal.Footer>
           </div>
@@ -701,6 +717,37 @@ class CharactersModal extends Component {
             </Modal.Footer>
           </div>
         </ModalContainer>
+        {/* Character Info Modal */}
+        <ModalContainer
+          show={this.state.show_4}
+          onHide={this.handleCloseCharacterInfo}
+        >
+          <div>
+            <ModalHeader closeButton>
+            </ModalHeader>
+            <CharacterDiv>
+              <Card
+                title={info_char && info_char.title}
+                description={info_char && info_char.description}
+                html={info_char && info_char.html}
+                type={info_char && info_char.type}
+                icon={info_char && info_char.icon}
+              />
+            </CharacterDiv>
+            <Modal.Footer>
+              <Button
+                style={{
+                  fontFamily: `Cairo, sans-serif`,
+                }}
+                className="footer-btn"
+                variant="danger"
+                onClick={this.handleCloseCharacterInfo}
+              >
+                {buttons.close}
+              </Button>
+            </Modal.Footer>
+          </div>
+        </ModalContainer>
         {this.state.players.length ===
           Number(localStorage.getItem("number_of_players")) &&
         this.state.characters.length ===
@@ -713,6 +760,24 @@ class CharactersModal extends Component {
     );
   }
 }
+
+const ModalHeader = styled(Modal.Header)`
+  h1 {
+    text-align: center;
+  }
+  background: rgba(0, 0, 0, 0.2);
+`;
+
+const CharacterDiv = styled(Modal.Body)`
+  display: flex;
+  flex-direction: column;
+  button {
+    padding: 12px;
+    margin-bottom: 3px;
+
+    font-family: "Cairo", sans-serif;
+  }
+`;
 
 const Title = styled.h1`
   margin-top: 10px;
