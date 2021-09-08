@@ -87,7 +87,32 @@ class CharactersModal extends Component {
   };
 
   handleDone = () => {
-    this.setState({ show: false });
+    let { players, characters, names } = { ...this.state };
+    let new_names = new Array(names.length);
+    let new_players = new Array(players.length);
+    let indexes = new Array(characters.length);
+    for (let i in characters) {
+      indexes[i] = Number(i);
+    }
+
+    indexes = this.shuffleIndexes(indexes);
+    new_names = indexes.map((index) => {
+      return names[index];
+    });
+    localStorage.setItem("new_names", JSON.stringify(new_names));
+
+    indexes = this.shuffleIndexes(indexes);
+    new_players = indexes.map((index) => {
+      return players[index];
+    });
+    localStorage.setItem("new_players", JSON.stringify(new_players));
+
+    this.setState({ new_names, new_players, ...this.state });
+    const n_p = this.make_dict(new_names, new_players);
+    localStorage.setItem("n_p", JSON.stringify(n_p));
+    const s_p = this.make_status_dict(new_players);
+    localStorage.setItem("s_p", JSON.stringify(s_p));
+    this.setState({ n_p, show: false });
   };
 
   handleShow = () => {
@@ -341,42 +366,7 @@ class CharactersModal extends Component {
   };
 
   shuffleRoles = () => {
-    if (
-      this.state.characters.length !==
-      Number(localStorage.getItem("number_of_players"))
-    )
-      return;
-
     this.props.history.push("/game-control");
-    let { players, characters, names } = { ...this.state };
-    let new_names = new Array(names.length);
-    let new_players = new Array(players.length);
-    let indexes = new Array(characters.length);
-    for (let i in characters) {
-      indexes[i] = Number(i);
-    }
-
-    indexes = this.shuffleIndexes(indexes);
-    new_names = indexes.map((index) => {
-      return names[index];
-    });
-    localStorage.setItem("new_names", JSON.stringify(new_names));
-
-    indexes = this.shuffleIndexes(indexes);
-    new_players = indexes.map((index) => {
-      return players[index];
-    });
-    localStorage.setItem("new_players", JSON.stringify(new_players));
-
-    this.setState({ new_names, new_players, ...this.state });
-    const n_p = this.make_dict(new_names, new_players);
-    localStorage.setItem("n_p", JSON.stringify(n_p));
-    const s_p = this.make_status_dict(new_players);
-    localStorage.setItem("s_p", JSON.stringify(s_p));
-    this.setState({
-      n_p,
-      ...this.state,
-    });
   };
 
   handleShowCharacterInfo = (idx) => {
