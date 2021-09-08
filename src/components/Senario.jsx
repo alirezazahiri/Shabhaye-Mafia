@@ -20,9 +20,7 @@ class Senario extends Component {
   };
 
   getCharacter = (idx) => {
-    const { characters } =
-      localStorage.getItem("language") === "uk" ? chars_en : chars_fa;
-    const { names } =
+    const { characters, names } =
       localStorage.getItem("language") === "uk" ? chars_en : chars_fa;
     return characters[idx][names[idx]];
   };
@@ -34,8 +32,7 @@ class Senario extends Component {
     this.setState({ fields: changeFields });
   };
 
-  handleChangeType = (e) => {
-    const type = e.target.name;
+  handleChangeType = (type) => {
     this.setState({ type });
   };
 
@@ -63,25 +60,25 @@ class Senario extends Component {
         />
         <Title>{title}</Title>
         <FilterContainer>
-          <button id="mafia" onClick={this.handleChangeType} name="mafia">
+          <button id="mafia" onClick={() => this.handleChangeType("mafia")} name="mafia">
             {side_mafia}
           </button>
-          <button id="citizen" onClick={this.handleChangeType} name="citizen">
+          <button id="citizen" onClick={() => this.handleChangeType("citizen")} name="citizen">
             {side_citizen}
           </button>
-          <button id="all" onClick={this.handleChangeType} name="all">
+          <button id="all" onClick={() => this.handleChangeType("all")} name="all">
             {side_all}
           </button>
           <button
             id="mid-independent"
-            onClick={this.handleChangeType}
+            onClick={() => this.handleChangeType("mid-independent")}
             name="mid-independent"
           >
             {side_mid_indep}
           </button>
           <button
             id="independent"
-            onClick={this.handleChangeType}
+            onClick={() => this.handleChangeType("independent")}
             name="independent"
           >
             {side_indep}
@@ -89,6 +86,7 @@ class Senario extends Component {
         </FilterContainer>
         {characters
           .filter((character) => {
+            // search
             const { characters } =
               localStorage.getItem("language") === "uk" ? chars_en : chars_fa;
             const { names } =
@@ -100,6 +98,7 @@ class Senario extends Component {
               .includes(this.state.fields.role.trim().toLowerCase());
           })
           .filter((character) => {
+            // type groups 
             const { characters } =
               localStorage.getItem("language") === "uk" ? chars_en : chars_fa;
             const { names } =
